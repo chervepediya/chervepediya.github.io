@@ -6,7 +6,9 @@
             {% assign telegram_parts = post.image | split: 't.me/' %}
             {% assign telegram_path = telegram_parts[1] %}
             <div class="post-image-bg" style="background: #16181C;"></div>
-            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="{{ telegram_path }}" data-width="100%"></script>
+            <div class="telegram-post">
+                <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="{{ telegram_path }}" data-width="100%"></script>
+            </div>
         {% else %}
             <div class="post-image-bg" style="background-image: url('{{ post.image | absolute_url }}');"></div>
             <img src="{{ post.image | absolute_url }}" alt="{{ post.title }}">
