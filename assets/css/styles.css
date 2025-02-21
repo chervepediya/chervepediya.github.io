@@ -1,10 +1,15 @@
+/* Сепия применяется только к содержимому */
+.content-wrapper {
+    filter: sepia(0.2);
+}
 
 body {
-    background-color: #16181C;
+    background-color: #000000;
     color: #D8D9DA;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Arial', sans-serif; /* Simplified font to match the screenshot's aesthetic */
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
 .main-container {
@@ -19,7 +24,7 @@ body {
 }
 
 .sidebar {
-    background-color: #16181C;
+    background-color: #000000;
     padding: 20px;
     width: 250px;
     position: sticky;
@@ -32,80 +37,32 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     position: relative;
 }
 
 .sidebar .logo {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 80px; /* Increased size to match the screenshot */
+    height: 80px;
     border-radius: 50%;
-    margin-right: 15px;
+    margin-right: 0;
+    background: url('path-to-image') no-repeat center center;
+    background-size: cover;
 }
 
 .sidebar .title-and-tag {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .sidebar .site-title {
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
-    position: relative;
-    display: inline-block;
-    padding: 2px 8px;
-    z-index: 1;
-    color: transparent;
-}
-
-.sidebar .site-title::before,
-.sidebar .site-title::after {
-    content: 'Червепедия';
-    position: absolute;
-    left: 2px;
-    width: 100%;
-    z-index: 2;
     color: #FFFFFF;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.sidebar .site-title::before {
-    top: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
-}
-
-.sidebar .site-title::after {
-    top: 0;
-    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
-}
-
-.sidebar .site-title .marker-blue,
-.sidebar .site-title .marker-yellow {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    z-index: -1;
-    transform: skewX(-15deg);
-}
-
-.sidebar .site-title .marker-blue {
-    top: 0;
-    height: 50%;
-    background-color: #0057B7;
-    transform: skewX(-15deg);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.sidebar .site-title .marker-yellow {
-    top: 50%;
-    height: 50%;
-    background-color: #FFD700;
-    transform: translateX(-5px) skewX(-15deg);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .sidebar .site-tag {
@@ -114,66 +71,51 @@ body {
     font-weight: 400;
     text-decoration: none;
     margin-top: 5px;
-    transition: background 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .sidebar .site-tag:hover {
-    background: linear-gradient(45deg, rgba(200, 200, 200, 0.5), rgba(150, 150, 150, 0.5));
+    color: #FFFFFF;
 }
 
 .sidebar .site-description {
-    margin: 25px 0 25px 0;
+    margin: 20px 0;
     color: #D8D9DA;
     font-size: 0.9rem;
     font-style: italic;
-    padding-bottom: 15px;
-    position: relative;
-    text-align: left;
-}
-
-.sidebar .site-description::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #D8D9DA;
+    text-align: center;
 }
 
 .sidebar nav {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .nav-link {
     color: #D8D9DA;
     text-decoration: none;
-    padding: 12px 10px;
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    width: auto;
-    font-size: 1rem;
+    padding: 10px 0;
+    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    display: block;
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: #FFFFFF;
 }
 
 .nav-link .icon {
-    width: 20px;
-    text-align: center;
-    margin-right: 15px;
-    font-size: 1rem;
-}
-
-.nav-link:active {
-    transform: scale(0.95);
+    display: none; /* Removed icons to match the screenshot */
 }
 
 /* Мобильная шапка */
 .mobile-header {
     display: none;
-    background-color: #16181C;
+    background-color: #000000;
     position: fixed;
     top: 0;
     left: 0;
@@ -203,7 +145,7 @@ body {
 
 .mobile-header .site-title {
     font-size: 1.2rem;
-    padding: 2px 6px;
+    color: #FFFFFF;
 }
 
 .menu-toggle {
@@ -221,7 +163,7 @@ body {
     left: 0;
     width: 250px;
     height: calc(100vh - 60px);
-    background-color: #16181C;
+    background-color: #000000;
     padding: 20px;
     flex-direction: column;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
@@ -232,7 +174,7 @@ body {
     display: flex;
 }
 
-/* Остальные стили */
+/* Посты и их контейнер */
 .posts-container {
     width: 600px;
     margin-left: 30px;
@@ -241,214 +183,116 @@ body {
 
 .post {
     background-color: transparent;
-    padding: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     position: relative;
 }
 
-.post:first-child {
-    padding-top: 0;
-}
-
-.post::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--underline-width, 100%);
-    height: 1px;
-    background-color: #D8D9DA;
-}
-
-.post h2 {
-    color: #E8ECEF;
-    font-size: 1.8rem;
-    font-weight: 700;
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     margin-bottom: 20px;
-    margin-top: 0;
-    line-height: 1.5rem;
 }
 
-.post-image {
-    position: relative;
+.post-grid img {
     width: 100%;
-    max-height: 500px;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.post-image-bg {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
-}
-
-.post-image img {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: 500px;
     height: auto;
-    cursor: pointer;
-}
-
-.post-image .telegram-post {
-    width: 100%;
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.post-image iframe {
-    width: 100%;
-    max-height: 500px;
-    border: none;
-}
-
-.post p {
-    line-height: 1.6;
-    margin-bottom: 20px;
-    margin-top: 10px;
-    font-size: 1rem;
-}
-
-.post-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.read-more {
-    background-color: #16181C;
-    color: #D8D9DA;
-    padding: 5px 10px;
     border-radius: 5px;
-    font-size: 0.9rem;
-    transition: transform 0.3s ease;
-    border: 1px solid #D8D9DA;
-    text-decoration: none;
-}
-
-.read-more:active {
-    transform: scale(0.95);
+    filter: brightness(0.8); /* Matching the muted tone in the screenshot */
 }
 
 .post-date {
     color: #D8D9DA;
     font-size: 0.9rem;
-}
-
-.comments {
-    margin-top: 20px;
-    width: 100%;
-}
-
-.comments iframe {
-    width: 100%;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin: 40px auto;
-    width: 100%;
+    margin-top: 10px;
     text-align: center;
 }
 
-.pagination a,
-.pagination span {
-    color: #D8D9DA;
-    padding: 8px 12px;
-    text-decoration: none;
-    margin: 0 10px;
-    transition: transform 0.3s ease;
-}
-
-.pagination a {
-    background-color: #16181C;
-    border-radius: 5px;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #D8D9DA;
-    border: 1px solid #D8D9DA;
-    font-size: 18px;
-}
-
-.pagination a:active {
-    transform: scale(0.95);
-}
-
-.pagination .current {
-    color: #E8ECEF;
-    font-weight: bold;
-}
-
-.about {
-    background-color: transparent;
-    padding: 30px;
-    margin-bottom: 40px;
-    position: relative;
-}
-
-.about::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--underline-width, 100%);
-    height: 1px;
-    background-color: #D8D9DA;
-}
-
-.about h2 {
-    color: #E8ECEF;
-    font-size: 1.8rem;
+.post-title {
+    color: #FFFFFF;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin: 15px 0 5px;
+    text-align: center;
 }
 
-.about p {
-    line-height: 1.6;
-    margin-bottom: 20px;
-    font-size: 1rem;
+.post-description {
+    color: #D8D9DA;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
+.post-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.read-more, .tags, .reblog {
+    color: #D8D9DA;
+    font-size: 0.8rem;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover, .tags:hover, .reblog:hover {
+    color: #FFFFFF;
+}
+
+.notes {
+    color: #D8D9DA;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Навигация по страницам */
+.page-nav {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.page-nav a {
+    color: #D8D9DA;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.page-nav a:hover {
+    color: #FFFFFF;
+}
+
+/* Подвал (footer) */
 footer {
-    background-color: #D8D9DA;
+    background-color: #000000;
     padding: 20px;
     text-align: center;
-    color: #16181C;
+    color: #D8D9DA;
     margin-top: 40px;
-    margin-bottom: 80px; /* Увеличен для кнопок */
-    position: relative;
-    z-index: 1;
 }
 
 footer a {
-    color: #16181C;
+    color: #D8D9DA;
     margin: 0 10px;
-    transition: background 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 footer a:hover {
-    background: linear-gradient(45deg, rgba(200, 200, 200, 0.5), rgba(150, 150, 150, 0.5));
+    color: #FFFFFF;
 }
 
+/* Кнопки прокрутки */
 .scroll-btn {
     position: fixed;
     right: 20px;
-    background-color: #16181C;
+    background-color: #000000;
     color: #D8D9DA;
     width: 30px;
     height: 30px;
@@ -482,7 +326,7 @@ footer a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(22, 24, 28, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -518,25 +362,7 @@ footer a:hover {
         padding-top: 0;
     }
 
-    .post {
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .post:first-child {
-        padding-top: 20px;
-    }
-
-    .post::after {
-        width: 100%;
-    }
-
-    .post:last-child::after {
-        display: block;
-    }
-
-    .about::after {
-        width: 100%;
+    .post-grid {
+        grid-template-columns: repeat(2, 1fr); /* Adjust grid for mobile */
     }
 }
