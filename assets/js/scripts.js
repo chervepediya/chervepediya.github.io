@@ -87,18 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
         about.style.setProperty('--underline-width', `${textWidth}px`);
     }
 
-    // Встраивание постов Telegram
-    const telegramLinks = document.querySelectorAll('.post p a[href^="https://t.me/"]');
-    telegramLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        const telegramRegex = /^https:\/\/t.me\/([a-zA-Z0-9_]+)\/(\d+)$/;
-        const match = href.match(telegramRegex);
-        if (match) {
-            const channel = match[1];
-            const postId = match[2];
-            const widget = document.createElement('div');
-            widget.innerHTML = `<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="${channel}/${postId}" data-width="100%"></script>`;
-            link.parentNode.replaceChild(widget, link);
+    // Автоматическое встраивание Telegram-постов
+    const postParagraphs = document.querySelectorAll('.post p');
+    postParagraphs.forEach(paragraph => {
+        const links = paragraph.getElementsByTagName('a');
+        for (let i = 0; i < links.length; i++) {
+            const href = links[i].getAttribute('href');
+            const telegramRegex = /^https:\/\/t\.me\/([a-zA-Z0-9_]+)\/(\d+)$/;
+            const match = href && href.match(telegramRegex);
+            if (match) {
+                const channel = match[1];
+                const postId = match[2];
+                const widget = document.createElement('div');
+                widget.innerHTML = `<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="${channel}/${postId}" data-width="100%"></script>`;
+                links[i].parentNode.replaceChild(widget, links[i]);
+            }
         }
     });
 });
