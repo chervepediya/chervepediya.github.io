@@ -68,8 +68,8 @@ body {
     left: 2px;
     width: 100%;
     z-index: 2;
-    color: #FFFFFF; /* Белый цвет */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Тень для читаемости */
+    color: #FFFFFF;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .sidebar .site-title::before {
@@ -97,7 +97,7 @@ body {
     height: 50%;
     background-color: #0057B7;
     transform: skewX(-15deg);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5); /* Объём */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar .site-title .marker-yellow {
@@ -105,7 +105,7 @@ body {
     height: 50%;
     background-color: #FFD700;
     transform: translateX(-5px) skewX(-15deg);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5); /* Объём */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar .site-tag {
@@ -122,7 +122,7 @@ body {
 }
 
 .sidebar .site-description {
-    margin: 25px 0 25px 0; /* Увеличенный отступ сверху от тега */
+    margin: 25px 0 25px 0;
     color: #D8D9DA;
     font-size: 0.9rem;
     font-style: italic;
@@ -443,8 +443,8 @@ footer a:hover {
 }
 
 .scroll-btn {
-    position: fixed; /* Восстановлено закрепление */
-    right: 20px; /* Отступ справа по умолчанию */
+    position: fixed; /* Закреплено при скроллинге */
+    right: 20px; /* Исходный отступ справа */
     background-color: #16181C;
     color: #D8D9DA;
     width: 30px;
@@ -457,7 +457,6 @@ footer a:hover {
     border-radius: 5px;
     transition: transform 0.3s ease;
     border: 1px solid #D8D9DA;
-    z-index: 100; /* На всякий случай, чтобы быть поверх контента */
 }
 
 .scroll-btn:active {
@@ -470,21 +469,6 @@ footer a:hover {
 
 #scroll-bottom {
     bottom: 20px; /* Исходный отступ снизу */
-}
-
-/* Настольная версия: отступы для стрелок */
-@media (min-width: 769px) {
-    .scroll-btn {
-        right: calc((100% - 1140px) / 2 + 20px); /* Центрируем между постами и краем экрана */
-    }
-    
-    #scroll-top {
-        bottom: 80px; /* Увеличенный отступ снизу */
-    }
-
-    #scroll-bottom {
-        bottom: 40px; /* Увеличенный отступ снизу */
-    }
 }
 
 .image-modal {
