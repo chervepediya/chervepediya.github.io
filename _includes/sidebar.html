@@ -1,0 +1,19 @@
+<div class="sidebar" data-aos="fade-right">
+    <div class="header">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&h=80&q=80" alt="Логотип" class="logo">
+        <div class="title-and-tag">
+            <h1 class="site-title">
+                {{ site.title }}
+                <span class="marker-blue"></span>
+                <span class="marker-yellow"></span>
+            </h1>
+            <a href="https://t.me/chervethreadofficial" class="site-tag">@chervethreadofficial</a>
+        </div>
+    </div>
+    <p class="site-description">{{ site.description }}</p>
+    <nav>
+        {% for item in site.menu %}
+        <a href="{{ item.url }}" class="nav-link"><span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}</a>
+        {% endfor %}
+    </nav>
+</div>
