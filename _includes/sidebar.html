@@ -13,9 +13,15 @@
     <p class="site-description">{{ site.description }}</p>
     <nav>
         {% for item in site.menu %}
-            <a href="{{ item.url | absolute_url }}" class="nav-link">
-                <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
-            </a>
+            {% if item.url contains '#' %}
+                <a href="{{ item.url }}" class="nav-link">
+                    <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                </a>
+            {% else %}
+                <a href="{{ item.url | absolute_url }}" class="nav-link">
+                    <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                </a>
+            {% endif %}
         {% endfor %}
     </nav>
 </div>
