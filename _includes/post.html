@@ -1,0 +1,14 @@
+<div class="post" data-aos="fade-up">
+    <h2>{{ post.title }}</h2>
+    {% if post.image %}
+    <div class="post-image">
+        <div class="post-image-bg" style="background-image: url('{{ post.image | absolute_url }}');"></div>
+        <img src="{{ post.image | absolute_url }}" alt="{{ post.title }}">
+    </div>
+    {% endif %}
+    <p>{{ post.excerpt }}</p>
+    <div class="post-footer">
+        <a href="{{ post.url | absolute_url }}" class="read-more">Читать</a>
+        <span class="post-date">{{ post.date | date: "%d.%m.%Y" }}</span>
+    </div>
+</div>
