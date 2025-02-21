@@ -1,11 +1,11 @@
-/* Sepia applied only to content */
+/* Сепия применяется только к содержимому */
 .content-wrapper {
     filter: sepia(0.2);
 }
 
 body {
-    background-color: #000000; /* Changed to pure black to match the Tumblr layout */
-    color: #FFFFFF; /* Changed to pure white for text to match the light text in the layout */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for better contrast on black background */
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
@@ -23,7 +23,7 @@ body {
 }
 
 .sidebar {
-    background-color: #000000; /* Changed to match the body background for consistency */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
     padding: 20px;
     width: 250px;
     position: sticky;
@@ -72,7 +72,7 @@ body {
     left: 2px;
     width: 100%;
     z-index: 2;
-    color: #FFFFFF; /* Changed to pure white to match the layout's text */
+    color: #FFFFFF; /* Changed from #FFFFFF (already white, but ensuring consistency) */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
@@ -96,11 +96,10 @@ body {
     transform: skewX(-15deg);
 }
 
-/* Adjust marker colors to fit the warm, muted aesthetic of the Tumblr layout */
 .sidebar .site-title .marker-blue {
     top: 0;
     height: 50%;
-    background-color: #8B4513; /* A muted brown/tan to match the autumnal tones */
+    background-color: #0057B7; /* Preserved as requested */
     transform: skewX(-15deg);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
@@ -108,13 +107,13 @@ body {
 .sidebar .site-title .marker-yellow {
     top: 50%;
     height: 50%;
-    background-color: #D2B48C; /* A soft tan/beige to match the image tones */
+    background-color: #FFD700; /* Preserved as requested */
     transform: translateX(-5px) skewX(-15deg);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar .site-tag {
-    color: #FFFFFF; /* Changed to pure white for consistency with the layout */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     font-size: 0.8rem;
     font-weight: 400;
     text-decoration: none;
@@ -123,12 +122,12 @@ body {
 }
 
 .sidebar .site-tag:hover {
-    background: linear-gradient(45deg, rgba(245, 245, 245, 0.5), rgba(200, 200, 200, 0.5)); /* Light gradient for hover, matching light tones */
+    background: linear-gradient(45deg, rgba(200, 200, 200, 0.5), rgba(150, 150, 150, 0.5));
 }
 
 .sidebar .site-description {
     margin: 25px 0 25px 0;
-    color: #FFFFFF; /* Changed to pure white */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     font-size: 0.9rem;
     font-style: italic;
     padding-bottom: 15px;
@@ -143,7 +142,7 @@ body {
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: #FFFFFF; /* Changed to white for the underline */
+    background-color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
 }
 
 .sidebar nav {
@@ -154,7 +153,7 @@ body {
 }
 
 .nav-link {
-    color: #FFFFFF; /* Changed to pure white */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     text-decoration: none;
     padding: 12px 10px;
     transition: transform 0.3s ease;
@@ -178,7 +177,7 @@ body {
 /* Мобильная шапка */
 .mobile-header {
     display: none;
-    background-color: #000000; /* Changed to black */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
     position: fixed;
     top: 0;
     left: 0;
@@ -209,13 +208,13 @@ body {
 .mobile-header .site-title {
     font-size: 1.2rem;
     padding: 2px 6px;
-    color: #FFFFFF; /* Changed to white */
+    color: #FFFFFF; /* Changed to white for consistency */
 }
 
 .menu-toggle {
     background: none;
     border: none;
-    color: #FFFFFF; /* Changed to white */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -227,7 +226,7 @@ body {
     left: 0;
     width: 250px;
     height: calc(100vh - 60px);
-    background-color: #000000; /* Changed to black */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
     padding: 20px;
     flex-direction: column;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
@@ -264,11 +263,11 @@ body {
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
-    background-color: #FFFFFF; /* Changed to white */
+    background-color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
 }
 
 .post h2 {
-    color: #FFFFFF; /* Changed to white for headings */
+    color: #FFFFFF; /* Changed from #E8ECEF to white for consistency */
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -322,7 +321,7 @@ body {
     margin-bottom: 20px;
     margin-top: 10px;
     font-size: 1rem;
-    color: #FFFFFF; /* Changed to white for paragraph text */
+    color: #FFFFFF; /* Changed to white for consistency */
 }
 
 .post-footer {
@@ -333,13 +332,13 @@ body {
 }
 
 .read-more {
-    background-color: #000000; /* Changed to black */
-    color: #FFFFFF; /* Changed to white */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9rem;
     transition: transform 0.3s ease;
-    border: 1px solid #FFFFFF; /* Changed to white border */
+    border: 1px solid #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     text-decoration: none;
 }
 
@@ -348,7 +347,7 @@ body {
 }
 
 .post-date {
-    color: #FFFFFF; /* Changed to white */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     font-size: 0.9rem;
 }
 
@@ -371,7 +370,7 @@ body {
 
 .pagination a,
 .pagination span {
-    color: #FFFFFF; /* Changed to white */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     padding: 8px 12px;
     text-decoration: none;
     margin: 0 10px;
@@ -379,15 +378,15 @@ body {
 }
 
 .pagination a {
-    background-color: #000000; /* Changed to black */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
     border-radius: 5px;
     width: 30px;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF; /* Changed to white */
-    border: 1px solid #FFFFFF; /* Changed to white border */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
+    border: 1px solid #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     font-size: 18px;
 }
 
@@ -396,7 +395,7 @@ body {
 }
 
 .pagination .current {
-    color: #FFFFFF; /* Changed to white, as it’s the primary text color */
+    color: #FFFFFF; /* Changed from #E8ECEF to white for consistency */
     font-weight: bold;
 }
 
@@ -415,11 +414,11 @@ body {
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
-    background-color: #FFFFFF; /* Changed to white */
+    background-color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
 }
 
 .about h2 {
-    color: #FFFFFF; /* Changed to white */
+    color: #FFFFFF; /* Changed from #E8ECEF to white for consistency */
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -429,14 +428,14 @@ body {
     line-height: 1.6;
     margin-bottom: 20px;
     font-size: 1rem;
-    color: #FFFFFF; /* Changed to white */
+    color: #FFFFFF; /* Changed to white for consistency */
 }
 
 footer {
-    background-color: #FFFFFF; /* Changed to white for contrast, matching the light text areas */
+    background-color: #FFFFFF; /* Changed from #D8D9DA to white for contrast with black body */
     padding: 20px;
     text-align: center;
-    color: #000000; /* Changed to black for text in footer */
+    color: #000000; /* Changed from #16181C to black for contrast with white footer */
     margin-top: 40px;
     margin-bottom: 80px; /* Увеличен для кнопок */
     position: relative;
@@ -444,7 +443,7 @@ footer {
 }
 
 footer a {
-    color: #000000; /* Changed to black */
+    color: #000000; /* Changed from #16181C to black for consistency */
     margin: 0 10px;
     transition: background 0.3s ease;
 }
@@ -456,8 +455,8 @@ footer a:hover {
 .scroll-btn {
     position: fixed;
     right: 20px;
-    background-color: #000000; /* Changed to black */
-    color: #FFFFFF; /* Changed to white */
+    background-color: #000000; /* Changed from #16181C to match the black background of the Tumblr page */
+    color: #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     width: 30px;
     height: 30px;
     display: flex;
@@ -467,7 +466,7 @@ footer a:hover {
     cursor: pointer;
     border-radius: 5px;
     transition: transform 0.3s ease;
-    border: 1px solid #FFFFFF; /* Changed to white border */
+    border: 1px solid #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     z-index: 1000;
 }
 
@@ -490,7 +489,7 @@ footer a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Changed to pure black with opacity */
+    background-color: rgba(0, 0, 0, 0.8); /* Changed to match the black background opacity */
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -499,7 +498,7 @@ footer a:hover {
 .image-modal img {
     max-width: 90%;
     max-height: 90%;
-    border: 2px solid #FFFFFF; /* Changed to white border */
+    border: 2px solid #FFFFFF; /* Changed from #D8D9DA to white for consistency */
     border-radius: 10px;
 }
 
