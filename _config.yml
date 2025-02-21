@@ -1,12 +1,33 @@
+# Основные настройки
 title: Червепедия
-description: Черветред - антироссийский тред на Дваче, созданный для обсуждения мемов, культуры и протестных настроений в анонимной среде.
-baseurl: ""
-url: "https://chervepediya.github.io"
-header_pages:
-  - index.md: home
-  - about.md: user
-  - contact.md: envelope
-  - archive.md: archive
-  - manifest.md: file-alt
-paginate: 5
-paginate_path: "/page:num/"
+description: Черветред - анти российский тред на Дваче, созданный для обсуждения мемов, культуры и протестных настроений в анонимной среде.
+url: "https://chervepediya.github.io"  # Абсолютный URL вашего сайта
+baseurl: ""  # Оставьте пустым, если сайт в корне домена
+timezone: Europe/Moscow
+lang: ru
+
+# Настройки пагинации
+paginate: 5  # Количество постов на странице
+paginate_path: "/page:num/"  # Шаблон URL для страниц пагинации
+
+# Плагины для GitHub Pages
+plugins:
+  - jekyll-paginate
+
+# Меню с иконками
+menu:
+  - title: Главная
+    url: "/"
+    icon: "fas fa-home"
+  - title: Обо мне
+    url: "/about/"
+    icon: "fas fa-user"
+  - title: Контакты
+    url: "/#footer"
+    icon: "fas fa-envelope"
+  - title: Архив
+    url: "/archive/"
+    icon: "fas fa-archive"
+  - title: Манифест черветреда
+    url: "/manifest/"
+    icon: "fas fa-file-alt"
