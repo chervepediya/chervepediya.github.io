@@ -1,11 +1,11 @@
-/* Сепия применяется только к содержимому */
+/* Sepia applied only to content */
 .content-wrapper {
     filter: sepia(0.2);
 }
 
 body {
-    background-color: #16181C;
-    color: #D8D9DA;
+    background-color: #000000; /* Changed to pure black to match the Tumblr layout */
+    color: #FFFFFF; /* Changed to pure white for text to match the light text in the layout */
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
@@ -23,7 +23,7 @@ body {
 }
 
 .sidebar {
-    background-color: #16181C;
+    background-color: #000000; /* Changed to match the body background for consistency */
     padding: 20px;
     width: 250px;
     position: sticky;
@@ -72,7 +72,7 @@ body {
     left: 2px;
     width: 100%;
     z-index: 2;
-    color: #FFFFFF;
+    color: #FFFFFF; /* Changed to pure white to match the layout's text */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
@@ -96,10 +96,11 @@ body {
     transform: skewX(-15deg);
 }
 
+/* Adjust marker colors to fit the warm, muted aesthetic of the Tumblr layout */
 .sidebar .site-title .marker-blue {
     top: 0;
     height: 50%;
-    background-color: #0057B7;
+    background-color: #8B4513; /* A muted brown/tan to match the autumnal tones */
     transform: skewX(-15deg);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
@@ -107,13 +108,13 @@ body {
 .sidebar .site-title .marker-yellow {
     top: 50%;
     height: 50%;
-    background-color: #FFD700;
+    background-color: #D2B48C; /* A soft tan/beige to match the image tones */
     transform: translateX(-5px) skewX(-15deg);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar .site-tag {
-    color: #D8D9DA;
+    color: #FFFFFF; /* Changed to pure white for consistency with the layout */
     font-size: 0.8rem;
     font-weight: 400;
     text-decoration: none;
@@ -122,12 +123,12 @@ body {
 }
 
 .sidebar .site-tag:hover {
-    background: linear-gradient(45deg, rgba(200, 200, 200, 0.5), rgba(150, 150, 150, 0.5));
+    background: linear-gradient(45deg, rgba(245, 245, 245, 0.5), rgba(200, 200, 200, 0.5)); /* Light gradient for hover, matching light tones */
 }
 
 .sidebar .site-description {
     margin: 25px 0 25px 0;
-    color: #D8D9DA;
+    color: #FFFFFF; /* Changed to pure white */
     font-size: 0.9rem;
     font-style: italic;
     padding-bottom: 15px;
@@ -142,7 +143,7 @@ body {
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: #D8D9DA;
+    background-color: #FFFFFF; /* Changed to white for the underline */
 }
 
 .sidebar nav {
@@ -153,7 +154,7 @@ body {
 }
 
 .nav-link {
-    color: #D8D9DA;
+    color: #FFFFFF; /* Changed to pure white */
     text-decoration: none;
     padding: 12px 10px;
     transition: transform 0.3s ease;
@@ -177,7 +178,7 @@ body {
 /* Мобильная шапка */
 .mobile-header {
     display: none;
-    background-color: #16181C;
+    background-color: #000000; /* Changed to black */
     position: fixed;
     top: 0;
     left: 0;
@@ -208,12 +209,13 @@ body {
 .mobile-header .site-title {
     font-size: 1.2rem;
     padding: 2px 6px;
+    color: #FFFFFF; /* Changed to white */
 }
 
 .menu-toggle {
     background: none;
     border: none;
-    color: #D8D9DA;
+    color: #FFFFFF; /* Changed to white */
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -225,7 +227,7 @@ body {
     left: 0;
     width: 250px;
     height: calc(100vh - 60px);
-    background-color: #16181C;
+    background-color: #000000; /* Changed to black */
     padding: 20px;
     flex-direction: column;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
@@ -262,11 +264,11 @@ body {
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
-    background-color: #D8D9DA;
+    background-color: #FFFFFF; /* Changed to white */
 }
 
 .post h2 {
-    color: #E8ECEF;
+    color: #FFFFFF; /* Changed to white for headings */
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -320,6 +322,7 @@ body {
     margin-bottom: 20px;
     margin-top: 10px;
     font-size: 1rem;
+    color: #FFFFFF; /* Changed to white for paragraph text */
 }
 
 .post-footer {
@@ -330,13 +333,13 @@ body {
 }
 
 .read-more {
-    background-color: #16181C;
-    color: #D8D9DA;
+    background-color: #000000; /* Changed to black */
+    color: #FFFFFF; /* Changed to white */
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9rem;
     transition: transform 0.3s ease;
-    border: 1px solid #D8D9DA;
+    border: 1px solid #FFFFFF; /* Changed to white border */
     text-decoration: none;
 }
 
@@ -345,7 +348,7 @@ body {
 }
 
 .post-date {
-    color: #D8D9DA;
+    color: #FFFFFF; /* Changed to white */
     font-size: 0.9rem;
 }
 
@@ -368,7 +371,7 @@ body {
 
 .pagination a,
 .pagination span {
-    color: #D8D9DA;
+    color: #FFFFFF; /* Changed to white */
     padding: 8px 12px;
     text-decoration: none;
     margin: 0 10px;
@@ -376,15 +379,15 @@ body {
 }
 
 .pagination a {
-    background-color: #16181C;
+    background-color: #000000; /* Changed to black */
     border-radius: 5px;
     width: 30px;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #D8D9DA;
-    border: 1px solid #D8D9DA;
+    color: #FFFFFF; /* Changed to white */
+    border: 1px solid #FFFFFF; /* Changed to white border */
     font-size: 18px;
 }
 
@@ -393,7 +396,7 @@ body {
 }
 
 .pagination .current {
-    color: #E8ECEF;
+    color: #FFFFFF; /* Changed to white, as it’s the primary text color */
     font-weight: bold;
 }
 
@@ -412,11 +415,11 @@ body {
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
-    background-color: #D8D9DA;
+    background-color: #FFFFFF; /* Changed to white */
 }
 
 .about h2 {
-    color: #E8ECEF;
+    color: #FFFFFF; /* Changed to white */
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -426,13 +429,14 @@ body {
     line-height: 1.6;
     margin-bottom: 20px;
     font-size: 1rem;
+    color: #FFFFFF; /* Changed to white */
 }
 
 footer {
-    background-color: #D8D9DA;
+    background-color: #FFFFFF; /* Changed to white for contrast, matching the light text areas */
     padding: 20px;
     text-align: center;
-    color: #16181C;
+    color: #000000; /* Changed to black for text in footer */
     margin-top: 40px;
     margin-bottom: 80px; /* Увеличен для кнопок */
     position: relative;
@@ -440,7 +444,7 @@ footer {
 }
 
 footer a {
-    color: #16181C;
+    color: #000000; /* Changed to black */
     margin: 0 10px;
     transition: background 0.3s ease;
 }
@@ -452,8 +456,8 @@ footer a:hover {
 .scroll-btn {
     position: fixed;
     right: 20px;
-    background-color: #16181C;
-    color: #D8D9DA;
+    background-color: #000000; /* Changed to black */
+    color: #FFFFFF; /* Changed to white */
     width: 30px;
     height: 30px;
     display: flex;
@@ -463,7 +467,7 @@ footer a:hover {
     cursor: pointer;
     border-radius: 5px;
     transition: transform 0.3s ease;
-    border: 1px solid #D8D9DA;
+    border: 1px solid #FFFFFF; /* Changed to white border */
     z-index: 1000;
 }
 
@@ -486,7 +490,7 @@ footer a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(22, 24, 28, 0.8);
+    background-color: rgba(0, 0, 0, 0.8); /* Changed to pure black with opacity */
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -495,7 +499,7 @@ footer a:hover {
 .image-modal img {
     max-width: 90%;
     max-height: 90%;
-    border: 2px solid #D8D9DA;
+    border: 2px solid #FFFFFF; /* Changed to white border */
     border-radius: 10px;
 }
 
