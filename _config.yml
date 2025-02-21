@@ -20,10 +20,10 @@ menu:
     url: "/"
     icon: "fas fa-home"
   - title: Обо мне
-    url: "/about/"
+    url: "#about"  # Изменено с "/about/" на "#about"
     icon: "fas fa-user"
   - title: Контакты
-    url: "/#footer"
+    url: "#footer"
     icon: "fas fa-envelope"
   - title: Архив
     url: "/archive/"
