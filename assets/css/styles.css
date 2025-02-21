@@ -11,6 +11,7 @@ body {
     padding: 0;
 }
 
+/* Основной контейнер */
 .main-container {
     width: 100%;
     max-width: 1140px;
@@ -24,7 +25,7 @@ body {
 /* Настольная версия: сайдбар как шапка */
 @media (min-width: 769px) {
     .sidebar {
-        width: 600px; /* Такая же ширина, как у постов */
+        width: 600px; /* Ширина как у постов */
         padding: 30px;
         margin-bottom: 40px;
         background-color: transparent;
@@ -47,7 +48,7 @@ body {
         display: grid;
         grid-template-columns: 125px 1fr; /* Логотип 125px, остальное для текста */
         grid-template-rows: auto auto; /* Две строки: название+тег и описание */
-        align-items: start;
+        align-items: center;
         gap: 10px;
         margin-bottom: 20px;
     }
@@ -135,7 +136,7 @@ body {
         text-decoration: none;
         margin-top: 5px;
         transition: background 0.3s ease;
-        align-self: flex-start;
+        align-self: flex-start; /* Выравнивание по первой букве названия */
     }
 
     .sidebar .site-tag:hover {
@@ -147,7 +148,7 @@ body {
         font-size: 0.9rem;
         font-style: italic;
         margin: 0;
-        align-self: flex-end; /* Описание на уровне нижней части логотипа */
+        align-self: flex-end; /* Визуально на линии нижней части логотипа */
     }
 
     .sidebar .menu {
@@ -174,7 +175,7 @@ body {
     .nav-link .icon {
         width: 20px;
         text-align: center;
-        margin-right: 5px; /* Уменьшено */
+        margin-right: 5px;
         font-size: 0.9rem;
     }
 
@@ -213,7 +214,7 @@ body {
         position: absolute;
         bottom: -5px;
         left: 0;
-        width: 100%; /* Подчёркивание по ширине текста */
+        width: 100%; /* Подчёркивание адаптируется под ширину текста */
         height: 1px;
         background-color: #D8D9DA;
     }
