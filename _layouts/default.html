@@ -25,6 +25,64 @@
         </div>
     </div>
 
+    <!-- Мобильная шапка -->
+    <header class="mobile-header">
+        <div class="header-content">
+            <div class="header-left">
+                <img src="{{ '/assets/images/logo.jpg' | absolute_url }}" alt="Логотип" class="logo">
+                <h1 class="site-title">
+                    {{ site.title }}
+                    <span class="marker-blue"></span>
+                    <span class="marker-yellow"></span>
+                </h1>
+            </div>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav class="mobile-menu">
+            {% for item in site.menu %}
+                {% if item.url contains '#' %}
+                    <a href="{{ item.url }}" class="nav-link">
+                        <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                    </a>
+                {% else %}
+                    <a href="{{ item.url | absolute_url }}" class="nav-link">
+                        <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <!-- Сайдбар -->
+        <aside class="sidebar">
+            <div class="header">
+                <img src="{{ '/assets/images/logo.jpg' | absolute_url }}" alt="Логотип" class="logo">
+                <div class="title-and-tag">
+                    <h1 class="site-title">
+                        {{ site.title }}
+                        <span class="marker-blue"></span>
+                        <span class="marker-yellow"></span>
+                    </h1>
+                    <a href="{{ site.url | absolute_url }}" class="site-tag">{{ site.tagline | default: 'Твой слоган' }}</a>
+                </div>
+            </div>
+            <p class="site-description">{{ site.description | default: 'Описание сайта' }}</p>
+            <nav>
+                {% for item in site.menu %}
+                    {% if item.url contains '#' %}
+                        <a href="{{ item.url }}" class="nav-link">
+                            <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                        </a>
+                    {% else %}
+                        <a href="{{ item.url | absolute_url }}" class="nav-link">
+                            <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </nav>
+        </aside>
+
     <!-- Кнопки прокрутки -->
     <button id="scroll-top" class="scroll-btn"><i class="fas fa-chevron-up"></i></button>
     <button id="scroll-bottom" class="scroll-btn"><i class="fas fa-chevron-down"></i></button>
