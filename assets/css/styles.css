@@ -1,10 +1,14 @@
+/* Сепия применяется только к содержимому */
+.content-wrapper {
+    filter: sepia(0.2);
+}
+
 body {
     background-color: #16181C;
     color: #D8D9DA;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    filter: sepia(0.2);
 }
 
 .main-container {
@@ -333,7 +337,7 @@ body {
     font-size: 0.9rem;
     transition: transform 0.3s ease;
     border: 1px solid #D8D9DA;
-    text-decoration: none; /* Убираем подчёркивание */
+    text-decoration: none;
 }
 
 .read-more:active {
@@ -430,9 +434,9 @@ footer {
     text-align: center;
     color: #16181C;
     margin-top: 40px;
-    margin-bottom: 80px; /* Увеличен отступ снизу для кнопок */
+    margin-bottom: 80px; /* Увеличен для кнопок */
     position: relative;
-    z-index: 1; /* Устанавливаем z-index ниже кнопок */
+    z-index: 1;
 }
 
 footer a {
@@ -446,8 +450,8 @@ footer a:hover {
 }
 
 .scroll-btn {
-    position: fixed !important; /* Принудительно фиксируем */
-    right: 20px; /* Исходный отступ справа */
+    position: fixed;
+    right: 20px;
     background-color: #16181C;
     color: #D8D9DA;
     width: 30px;
@@ -460,7 +464,7 @@ footer a:hover {
     border-radius: 5px;
     transition: transform 0.3s ease;
     border: 1px solid #D8D9DA;
-    z-index: 1000; /* Выше футера */
+    z-index: 1000;
 }
 
 .scroll-btn:active {
@@ -468,11 +472,11 @@ footer a:hover {
 }
 
 #scroll-top {
-    bottom: 60px; /* Исходный отступ снизу */
+    bottom: 60px;
 }
 
 #scroll-bottom {
-    bottom: 20px; /* Исходный отступ снизу */
+    bottom: 20px;
 }
 
 .image-modal {
