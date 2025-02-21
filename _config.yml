@@ -1,0 +1,30 @@
+title: Червепедия
+description: Черветред - анти российский тред на Дваче, созданный для обсуждения мемов, культуры и протестных настроений в анонимной среде.
+url: https://chervepediya.github.io
+baseurl: ""
+
+# Меню
+menu:
+  - title: Главная
+    url: /
+    icon: fas fa-home
+  - title: Обо мне
+    url: /about/
+    icon: fas fa-user
+  - title: Контакты
+    url: /#footer
+    icon: fas fa-envelope
+  - title: Архив
+    url: /archive/
+    icon: fas fa-archive
+  - title: Манифест черветреда
+    url: /manifest/
+    icon: fas fa-file-alt
+
+# Настройки пагинации
+paginate: 5
+paginate_path: "/page:num/"
+
+# Плагины
+plugins:
+  - jekyll-paginate
