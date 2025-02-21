@@ -8,8 +8,10 @@ const scrollBottomBtn = document.getElementById('scroll-bottom');
 const imageModal = document.getElementById('imageModal');
 const modalImage = document.getElementById('modalImage');
 const images = document.querySelectorAll('.post img');
+const menuToggle = document.querySelector('.menu-toggle');
+const mobileMenu = document.querySelector('.mobile-menu');
 
-// Анимация кнопок
+// Анимация кнопок прокрутки
 gsap.from(".scroll-btn", {
     opacity: 0,
     y: 20,
@@ -36,6 +38,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
             const target = document.querySelector(href);
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth' });
+                mobileMenu.classList.remove('active'); // Закрываем меню на мобильных
             }
         }
     });
@@ -88,28 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Функция для встраивания Telegram-постов
-function embedTelegramPosts() {
-    const postParagraphs = document.querySelectorAll('.post p');
-    postParagraphs.forEach(paragraph => {
-        const links = paragraph.getElementsByTagName('a');
-        for (let i = links.length - 1; i >= 0; i--) {  // Обратный цикл, чтобы не ломать DOM
-            const href = links[i].getAttribute('href');
-            const telegramRegex = /^https:\/\/t\.me\/([a-zA-Z0-9_]+)\/(\d+)$/;
-            const match = href && href.match(telegramRegex);
-            if (match) {
-                console.log('Found Telegram link:', href);  // Для отладки
-                const channel = match[1];
-                const postId = match[2];
-                const widget = document.createElement('div');
-                widget.innerHTML = `<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="${channel}/${postId}" data-width="100%"></script>`;
-                links[i].parentNode.replaceChild(widget, links[i]);
-            }
-        }
-    });
-}
-
-// Выполняем встраивание после полной загрузки страницы
-window.addEventListener('load', () => {
-    embedTelegramPosts();
+// Управление выдвижным меню
+menuToggle.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('active')) {
+        gsap.to(".mobile-menu", { x: "-100%", duration: 0.3, ease: "power2.in" });
+        mobileMenu.classList.remove('active');
+    } else {
+        mobileMenu.classList.add('active');
+        gsap.fromTo(".mobile-menu", { x: "-100%" }, { x: 0, duration: 0.3, ease: "power2.out" });
+    }
 });
