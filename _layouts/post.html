@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<div class="post" data-aos="fade-up">
+    <h2>{{ page.title }}</h2>
+    {% if page.image %}
+    <div class="post-image">
+        <div class="post-image-bg" style="background-image: url('{{ page.image | absolute_url }}');"></div>
+        <img src="{{ page.image | absolute_url }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
+    <p>{{ content }}</p>
+    <div class="post-footer">
+        <span class="post-date">{{ page.date | date: "%d.%m.%Y" }}</span>
+    </div>
+</div>
