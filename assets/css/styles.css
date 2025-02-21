@@ -1,8 +1,3 @@
-/* Сепия применяется только к содержимому */
-.content-wrapper {
-    filter: sepia(0.2);
-}
-
 body {
     background-color: #000000;
     color: #D8D9DA;
