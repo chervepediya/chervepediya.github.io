@@ -208,8 +208,8 @@ body {
 .post-image {
     position: relative;
     width: 100%;
-    max-height: 500px; /* Максимальная высота 500px */
-    overflow: hidden; /* Скрываем переполнение */
+    max-height: 500px;
+    overflow: hidden;
     margin-bottom: 20px;
     border-radius: 10px;
 }
@@ -230,7 +230,7 @@ body {
     display: block;
     margin: 0 auto;
     max-width: 100%;
-    max-height: 500px; /* Ограничиваем высоту изображения */
+    max-height: 500px;
     height: auto;
     cursor: pointer;
     border-radius: 10px;
@@ -239,14 +239,14 @@ body {
 
 .post-image .telegram-post {
     width: 100%;
-    max-height: 500px; /* Ограничиваем высоту виджета */
-    overflow-y: auto; /* Прокрутка, если контент длиннее */
+    max-height: 500px;
+    overflow-y: auto;
     border-radius: 10px;
 }
 
 .post-image iframe {
     width: 100%;
-    max-height: 500px; /* Максимальная высота iframe */
+    max-height: 500px;
     border: none;
     border-radius: 10px;
 }
@@ -282,6 +282,16 @@ body {
 .post-date {
     color: #D8D9DA;
     font-size: 0.9rem;
+}
+
+.comments {
+    margin-top: 20px; /* Отступ сверху от текста поста */
+    width: 100%;
+}
+
+.comments iframe {
+    width: 100%;
+    border-radius: 10px; /* Скругление углов */
 }
 
 .pagination {
