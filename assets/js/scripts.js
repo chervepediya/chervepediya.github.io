@@ -86,16 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const textWidth = aboutText.offsetWidth;
         about.style.setProperty('--underline-width', `${textWidth}px`);
     }
+});
 
-    // Автоматическое встраивание Telegram-постов
+// Функция для встраивания Telegram-постов
+function embedTelegramPosts() {
     const postParagraphs = document.querySelectorAll('.post p');
     postParagraphs.forEach(paragraph => {
         const links = paragraph.getElementsByTagName('a');
-        for (let i = 0; i < links.length; i++) {
+        for (let i = links.length - 1; i >= 0; i--) {  // Обратный цикл, чтобы не ломать DOM
             const href = links[i].getAttribute('href');
             const telegramRegex = /^https:\/\/t\.me\/([a-zA-Z0-9_]+)\/(\d+)$/;
             const match = href && href.match(telegramRegex);
             if (match) {
+                console.log('Found Telegram link:', href);  // Для отладки
                 const channel = match[1];
                 const postId = match[2];
                 const widget = document.createElement('div');
@@ -104,4 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+}
+
+// Выполняем встраивание после полной загрузки страницы
+window.addEventListener('load', () => {
+    embedTelegramPosts();
 });
