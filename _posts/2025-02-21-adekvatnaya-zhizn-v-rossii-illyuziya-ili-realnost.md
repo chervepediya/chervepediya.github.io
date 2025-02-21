@@ -2,7 +2,7 @@
 layout: post
 title: Жизнь в России
 date: 2025-02-21
-image: assets/images/черветред(2).png
+image: assets/images/черветред(2).gif
 description: Черветред — про адекватную жизнь в России можно забыть. Ничего тут в лучшую сторону не изменится...
 ---
 
