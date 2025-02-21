@@ -12,6 +12,7 @@ paginate_path: "/page:num/"  # Шаблон URL для страниц пагин
 
 # Плагины для GitHub Pages
 plugins:
+  - jekyll-seo-tag
   - jekyll-paginate
 
 # Меню с иконками
