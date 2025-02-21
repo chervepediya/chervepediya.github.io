@@ -22,9 +22,13 @@ body {
     padding: 20px;
     width: 250px;
     position: sticky;
-    top: 40px;
-    height: fit-content;
+    top: 0; /* Изменено с 40px на 0 для полной высоты */
+    height: 100vh; /* Полная высота страницы */
     text-align: center;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3); /* Тень справа */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .sidebar .header {
@@ -144,6 +148,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    flex-grow: 1; /* Растягиваем nav до футера */
 }
 
 .nav-link {
@@ -168,6 +173,69 @@ body {
     transform: scale(0.95);
 }
 
+/* Мобильная шапка */
+.mobile-header {
+    display: none; /* Скрыта на десктопе */
+    background-color: #16181C;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-header .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.mobile-header .site-title {
+    font-size: 1.2rem;
+    padding: 2px 6px;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: #D8D9DA;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    top: 60px; /* Высота шапки */
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 60px);
+    background-color: #16181C;
+    padding: 20px;
+    flex-direction: column;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.mobile-menu.active {
+    display: flex; /* Показываем при активации */
+}
+
+/* Остальные стили */
 .posts-container {
     width: 600px;
     margin-left: 30px;
@@ -285,13 +353,13 @@ body {
 }
 
 .comments {
-    margin-top: 20px; /* Отступ сверху от текста поста */
+    margin-top: 20px;
     width: 100%;
 }
 
 .comments iframe {
     width: 100%;
-    border-radius: 10px; /* Скругление углов */
+    border-radius: 10px;
 }
 
 .pagination {
@@ -433,41 +501,46 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
+    .sidebar {
+        display: none; /* Скрываем сайдбар на мобильных */
+    }
+
+    .mobile-header {
+        display: block; /* Показываем шапку */
+    }
+
     .main-container {
         flex-direction: column;
-        padding-top: 20px;
+        padding-top: 80px; /* Учитываем высоту шапки */
         width: 100%;
         max-width: 100%;
     }
-    .sidebar {
-        position: static;
-        width: 100%;
-        max-width: 540px;
-        margin: 0 auto 30px auto;
-        padding: 20px;
-        box-sizing: border-box;
-        border-bottom: none;
-    }
+
     .posts-container {
         width: 100%;
         max-width: 540px;
         margin: 0 auto;
         padding-top: 0;
     }
+
     .post {
         width: 100%;
         padding: 20px;
         box-sizing: border-box;
     }
+
     .post:first-child {
         padding-top: 20px;
     }
+
     .post::after {
         width: 100%;
     }
+
     .post:last-child::after {
         display: block;
     }
+
     .about::after {
         width: 100%;
     }
