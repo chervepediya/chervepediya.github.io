@@ -321,13 +321,12 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
-    position: relative;
 }
 
 .post::after {
     content: '';
     position: absolute;
-    bottom: 40px; /* Над .post-footer, сохраняя отступ 40px от края поста */
+    bottom: 20px; /* Теперь подчёркивание на месте старого .post-footer */
     left: 50%;
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
