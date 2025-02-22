@@ -23,6 +23,7 @@
 </div>
 
 <!-- Структурированные данные для списка постов -->
+{% if site.posts.size > 0 %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,10 +32,11 @@
     {% for post in site.posts %}
     {
       "@type": "ListItem",
-      "position": {{ forloop.index }},
+      "position": {{ forloop.index0 | plus: 1 }},
       "url": "{{ post.url | absolute_url }}"
-    }{% if not forloop.last %},{% endif %}
+    }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ]
 }
 </script>
+{% endif %}
