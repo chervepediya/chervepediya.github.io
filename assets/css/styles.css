@@ -328,11 +328,15 @@ body {
     background-color: #333333;
 }
 
+.post::after {
+    content: none; /* Отключаем старое подчёркивание */
+}
+
 .post-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 40px; /* 20px от текста + 20px от подчеркивания */
+    margin-top: 40px; /* 20px от текста + 20px от подчёркивания */
 }
 
 .read-more {
@@ -530,7 +534,7 @@ footer a:hover {
     }
 
     .post p::after {
-        width: 100%; /* В мобильной версии подчеркивание на всю ширину */
+        width: 100%; /* В мобильной версии подчёркивание на всю ширину */
     }
 
     .about::after {
