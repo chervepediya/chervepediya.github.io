@@ -8,10 +8,10 @@
                 <span class="marker-yellow"></span>
             </h1>
             <a href="https://t.me/chervethreadofficial" class="site-tag">@chervethreadofficial</a>
-            <p class="site-description">{{ site.description }}</p>
         </div>
     </div>
-    <nav class="menu">
+    <p class="site-description">{{ site.description }}</p>
+    <nav>
         {% for item in site.menu %}
             {% if item.url contains '#' %}
                 <a href="{{ item.url }}" class="nav-link">
