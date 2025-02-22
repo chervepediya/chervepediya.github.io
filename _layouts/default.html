@@ -18,52 +18,48 @@
     <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="channel/post" data-width="100%"></script>
 </head>
 <body>
-    <!-- Контейнер для содержимого с сепией -->
-    <div class="content-wrapper">
-        <!-- Мобильная шапка -->
-        <header class="mobile-header">
-            <div class="header-content">
-                <div class="header-left">
-                    <img src="{{ '/assets/images/logo.jpg' | absolute_url }}" alt="Логотип Черветреда" class="logo">
-                    <h1 class="site-title">
-                        {{ site.title }}
-                        <span class="marker-blue"></span>
-                        <span class="marker-yellow"></span>
-                    </h1>
-                </div>
-                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-            </div>
-            <nav class="mobile-menu">
-                {% for item in site.menu %}
-                    {% if item.url contains '#' %}
-                        <a href="{{ item.url }}" class="nav-link">
-                            <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
-                        </a>
-                    {% else %}
-                        <a href="{{ item.url | absolute_url }}" class="nav-link">
-                            <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </nav>
-        </header>
-
-        <!-- Основное содержимое -->
-        <div class="main-container">
-            {% include sidebar.html %}
-            <div class="posts-container">
-                {{ content }}
-            </div>
+    <div class="main-container">
+        {% include sidebar.html %}
+        <div class="posts-container">
+            {{ content }}
         </div>
-
-        <!-- Футер -->
-        {% include footer.html %}
     </div>
 
-    <!-- Кнопки прокрутки и модальное окно -->
+    <!-- Мобильная шапка -->
+    <header class="mobile-header">
+        <div class="header-content">
+            <div class="header-left">
+                <img src="{{ '/assets/images/logo.jpg' | absolute_url }}" alt="Логотип" class="logo">
+                <h1 class="site-title">
+                    {{ site.title }}
+                    <span class="marker-blue"></span>
+                    <span class="marker-yellow"></span>
+                </h1>
+            </div>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav class="mobile-menu">
+            {% for item in site.menu %}
+                {% if item.url contains '#' %}
+                    <a href="{{ item.url }}" class="nav-link">
+                        <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                    </a>
+                {% else %}
+                    <a href="{{ item.url | absolute_url }}" class="nav-link">
+                        <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </nav>
+    </header>
+
+    <!-- Кнопки прокрутки -->
     <button id="scroll-top" class="scroll-btn"><i class="fas fa-chevron-up"></i></button>
     <button id="scroll-bottom" class="scroll-btn"><i class="fas fa-chevron-down"></i></button>
 
+    {% include footer.html %}
+
+    <!-- Модальное окно -->
     <div class="image-modal" id="imageModal">
         <img src="" alt="Увеличенное изображение" id="modalImage">
     </div>
