@@ -1,301 +1,241 @@
-/* Сепия применяется только к содержимому */
-.content-wrapper {
-    filter: sepia(0.2);
-}
-
 body {
-    background-color: #16181C;
-    color: #D8D9DA;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-/* Основной контейнер */
 .main-container {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 40px;
     width: 100%;
     max-width: 1140px;
     margin: 0 auto;
-    padding-top: 40px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.sidebar {
+    background-color: #1A1A1A;
+    padding: 20px;
+    width: 250px;
+    position: sticky;
+    top: 40px;
+    height: fit-content;
+    text-align: center;
+}
+
+.sidebar .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.sidebar .logo {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.sidebar .title-and-tag {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+.sidebar .site-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    padding: 2px 8px;
+    z-index: 1;
+    color: transparent;
+}
+
+.sidebar .site-title::before,
+.sidebar .site-title::after {
+    content: 'Червепедия';
+    position: absolute;
+    left: 2px;
+    width: 100%;
+    z-index: 2;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.sidebar .site-title::before {
+    top: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+}
+
+.sidebar .site-title::after {
+    top: 0;
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+}
+
+.sidebar .site-title .marker-blue,
+.sidebar .site-title .marker-yellow {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    transform: skewX(-15deg);
+}
+
+.sidebar .site-title .marker-blue {
+    top: 0;
+    height: 50%;
+    background-color: #0057B7;
+    transform: skewX(-15deg);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar .site-title .marker-yellow {
+    top: 50%;
+    height: 50%;
+    background-color: #FFD700;
+    transform: translateX(-5px) skewX(-15deg);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar .site-tag {
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: none;
+    margin-top: 5px;
+    transition: background 0.3s ease;
+}
+
+.sidebar .site-tag:hover {
+    background: linear-gradient(45deg, rgba(51, 51, 51, 0.5), rgba(150, 150, 150, 0.5));
+}
+
+.sidebar .site-description {
+    margin: 25px 0 25px 0;
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    font-style: italic;
+    padding-bottom: 15px;
+    position: relative;
+    text-align: left;
+}
+
+.sidebar .site-description::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #333333;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.nav-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 12px 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    width: auto;
+    font-size: 1rem;
+}
+
+.nav-link .icon {
+    width: 20px;
+    text-align: center;
+    margin-right: 15px;
+    font-size: 1rem;
+}
+
+.nav-link:active {
+    transform: scale(0.95);
+}
+
+.mobile-header {
+    display: none;
+    background-color: #1A1A1A;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-/* Настольная версия: сайдбар над постами */
-@media (min-width: 769px) {
-    .sidebar {
-        background-color: #16181C;
-        padding: 20px;
-        width: 600px; /* Расширен до ширины постов */
-        position: static; /* Открепляем */
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .sidebar .header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 5px;
-        position: relative;
-    }
-
-    .sidebar .logo {
-        display: block;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 15px;
-    }
-
-    .sidebar .title-and-tag {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .sidebar .site-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin: 0;
-        position: relative;
-        display: inline-block;
-        padding: 2px 8px;
-        z-index: 1;
-        color: transparent;
-    }
-
-    .sidebar .site-title::before,
-    .sidebar .site-title::after {
-        content: 'Червепедия';
-        position: absolute;
-        left: 2px;
-        width: 100%;
-        z-index: 2;
-        color: #000000;
-        clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
-    }
-
-    .sidebar .site-title::after {
-        color: #CE2029;
-        clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
-    }
-
-    .sidebar .site-title .marker-blue,
-    .sidebar .site-title .marker-yellow {
-        content: '';
-        position: absolute;
-        left: 0;
-        width: 100%;
-        z-index: -1;
-        transform: skewX(-15deg);
-    }
-
-    .sidebar .site-title .marker-blue {
-        top: 0;
-        height: 50%;
-        background-color: #0057B7;
-    }
-
-    .sidebar .site-title .marker-yellow {
-        top: 50%;
-        height: 50%;
-        background-color: #FFD700;
-        transform: translateX(-5px) skewX(-15deg);
-    }
-
-    .sidebar .site-tag {
-        color: #D8D9DA;
-        font-size: 0.8rem;
-        font-weight: 400;
-        text-decoration: none;
-        margin-top: 5px;
-        transition: background 0.3s ease;
-    }
-
-    .sidebar .site-tag:hover {
-        background: linear-gradient(45deg, rgba(200, 200, 200, 0.5), rgba(150, 150, 150, 0.5));
-    }
-
-    .sidebar .site-description {
-        margin: 0 0 25px 0;
-        color: #D8D9DA;
-        font-size: 0.9rem;
-        font-style: italic;
-        padding-bottom: 15px;
-        position: relative;
-        text-align: left;
-    }
-
-    .sidebar .site-description::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: #D8D9DA;
-    }
-
-    .sidebar nav {
-        display: flex;
-        flex-direction: row; /* Горизонтальное расположение */
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    .nav-link {
-        color: #D8D9DA;
-        text-decoration: none;
-        padding: 12px 10px;
-        transition: transform 0.3s ease;
-        display: flex;
-        align-items: center;
-        font-size: 1rem;
-        flex: 1; /* Уменьшение для подгонки */
-        text-align: center;
-    }
-
-    .nav-link .icon {
-        width: 20px;
-        text-align: center;
-        margin-right: 15px;
-        font-size: 1rem;
-    }
-
-    .nav-link:active {
-        transform: scale(0.95);
-    }
+.header-left {
+    display: flex;
+    align-items: center;
 }
 
-/* Посты в настольной версии */
-@media (min-width: 769px) {
-    .posts-container {
-        width: 600px;
-        padding-top: 15px;
-    }
-
-    .post {
-        background-color: transparent;
-        padding: 30px;
-        margin-bottom: 40px;
-        position: relative;
-    }
-
-    .post::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: var(--underline-width, 100%);
-        height: 1px;
-        background-color: #D8D9DA;
-    }
+.mobile-header .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
-/* Мобильная версия */
-@media (max-width: 768px) {
-    .sidebar {
-        display: none;
-    }
-
-    .mobile-header {
-        display: block;
-        background-color: #16181C;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        padding: 10px 20px;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .header-left {
-        display: flex;
-        align-items: center;
-    }
-
-    .mobile-header .logo {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .mobile-header .site-title {
-        font-size: 1.2rem;
-        padding: 2px 6px;
-    }
-
-    .menu-toggle {
-        background: none;
-        border: none;
-        color: #D8D9DA;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-
-    .mobile-menu {
-        display: none;
-        position: fixed;
-        top: 60px;
-        left: 0;
-        width: 250px;
-        height: calc(100vh - 60px);
-        background-color: #16181C;
-        padding: 20px;
-        flex-direction: column;
-        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
-        z-index: 999;
-    }
-
-    .mobile-menu.active {
-        display: flex;
-    }
-
-    .main-container {
-        flex-direction: column;
-        padding-top: 80px;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .posts-container {
-        width: 100%;
-        max-width: 540px;
-        margin: 0 auto;
-        padding-top: 0;
-    }
-
-    .post {
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .post:first-child {
-        padding-top: 20px;
-    }
-
-    .post::after {
-        width: 100%;
-    }
-
-    .post:last-child::after {
-        display: block;
-    }
+.mobile-header .site-title {
+    font-size: 1.2rem;
+    padding: 2px 6px;
 }
 
-/* Общие стили */
+.menu-toggle {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 60px);
+    background-color: #1A1A1A;
+    padding: 20px;
+    flex-direction: column;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+.posts-container {
+    width: 600px;
+    margin-left: 30px;
+    padding-top: 15px;
+}
+
 .post {
     background-color: transparent;
     padding: 30px;
@@ -315,11 +255,11 @@ body {
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
-    background-color: #D8D9DA;
+    background-color: #333333;
 }
 
 .post h2 {
-    color: #E8ECEF;
+    color: #FFFFFF;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -383,13 +323,13 @@ body {
 }
 
 .read-more {
-    background-color: #16181C;
-    color: #D8D9DA;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9rem;
     transition: transform 0.3s ease;
-    border: 1px solid #D8D9DA;
+    border: 1px solid #333333;
     text-decoration: none;
 }
 
@@ -398,17 +338,8 @@ body {
 }
 
 .post-date {
-    color: #D8D9DA;
+    color: #FFFFFF;
     font-size: 0.9rem;
-}
-
-.comments {
-    margin-top: 20px;
-    width: 100%;
-}
-
-.comments iframe {
-    width: 100%;
 }
 
 .pagination {
@@ -421,7 +352,7 @@ body {
 
 .pagination a,
 .pagination span {
-    color: #D8D9DA;
+    color: #FFFFFF;
     padding: 8px 12px;
     text-decoration: none;
     margin: 0 10px;
@@ -429,15 +360,15 @@ body {
 }
 
 .pagination a {
-    background-color: #16181C;
+    background-color: #1A1A1A;
     border-radius: 5px;
     width: 30px;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #D8D9DA;
-    border: 1px solid #D8D9DA;
+    color: #FFFFFF;
+    border: 1px solid #333333;
     font-size: 18px;
 }
 
@@ -446,7 +377,7 @@ body {
 }
 
 .pagination .current {
-    color: #E8ECEF;
+    color: #FFFFFF;
     font-weight: bold;
 }
 
@@ -465,11 +396,11 @@ body {
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
-    background-color: #D8D9DA;
+    background-color: #333333;
 }
 
 .about h2 {
-    color: #E8ECEF;
+    color: #FFFFFF;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -482,10 +413,10 @@ body {
 }
 
 footer {
-    background-color: #D8D9DA;
+    background-color: #FFFFFF;
     padding: 20px;
     text-align: center;
-    color: #16181C;
+    color: #1A1A1A;
     margin-top: 40px;
     margin-bottom: 80px;
     position: relative;
@@ -493,20 +424,20 @@ footer {
 }
 
 footer a {
-    color: #16181C;
+    color: #1A1A1A;
     margin: 0 10px;
     transition: background 0.3s ease;
 }
 
 footer a:hover {
-    background: linear-gradient(45deg, rgba(200, 200, 200, 0.5), rgba(150, 150, 150, 0.5));
+    background: linear-gradient(45deg, rgba(51, 51, 51, 0.5), rgba(150, 150, 150, 0.5));
 }
 
 .scroll-btn {
     position: fixed;
     right: 20px;
-    background-color: #16181C;
-    color: #D8D9DA;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
     width: 30px;
     height: 30px;
     display: flex;
@@ -516,7 +447,7 @@ footer a:hover {
     cursor: pointer;
     border-radius: 5px;
     transition: transform 0.3s ease;
-    border: 1px solid #D8D9DA;
+    border: 1px solid #333333;
     z-index: 1000;
 }
 
@@ -539,7 +470,7 @@ footer a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(22, 24, 28, 0.8);
+    background-color: rgba(26, 26, 26, 0.8);
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -548,6 +479,52 @@ footer a:hover {
 .image-modal img {
     max-width: 90%;
     max-height: 90%;
-    border: 2px solid #D8D9DA;
+    border: 2px solid #333333;
     border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .mobile-header {
+        display: block;
+    }
+
+    .main-container {
+        flex-direction: column;
+        padding-top: 80px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .posts-container {
+        width: 100%;
+        max-width: 540px;
+        margin: 0 auto;
+        padding-top: 0;
+    }
+
+    .post {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .post:first-child {
+        padding-top: 20px;
+    }
+
+    .post::after {
+        width: 100%;
+    }
+
+    .post:last-child::after {
+        display: block;
+    }
+
+    .about::after {
+        width: 100%;
+    }
 }
