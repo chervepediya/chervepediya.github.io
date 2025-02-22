@@ -314,12 +314,13 @@ body {
     margin-bottom: 20px;
     margin-top: 0;
     font-size: 1rem;
+    position: relative;
 }
 
-.post::after {
+.post p::after {
     content: '';
     position: absolute;
-    bottom: 0; /* Под текстом, сразу после margin-bottom: 20px текста */
+    bottom: -20px; /* 20px ниже текста */
     left: 50%;
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
@@ -331,7 +332,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px; /* Отступ футера от подчёркивания */
+    margin-top: 40px; /* 20px от текста + 20px от подчеркивания */
 }
 
 .read-more {
@@ -528,12 +529,8 @@ footer a:hover {
         padding-top: 20px;
     }
 
-    .post::after {
-        width: 100%;
-    }
-
-    .post:last-child::after {
-        display: block;
+    .post p::after {
+        width: 100%; /* В мобильной версии подчеркивание на всю ширину */
     }
 
     .about::after {
