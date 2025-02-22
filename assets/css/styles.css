@@ -311,7 +311,7 @@ body {
 .post p {
     line-height: 1.6;
     margin-bottom: 20px;
-    margin-top: 10px;
+    margin-top: 0; /* Сохранение отступа текста от заголовка, как при наличии изображения */
     font-size: 1rem;
 }
 
