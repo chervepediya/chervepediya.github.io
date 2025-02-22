@@ -6,19 +6,6 @@ body {
     padding: 0;
 }
 
-.sidebar {
-    background-color: #1A1A1A;
-    background-image: url('https://preview.redd.it/ozj9eny55r961.png?width=640&crop=smart&auto=webp&s=c7655dd73b638a9bcb6e84c8e4a7a37489915092');
-    background-size: auto; /* Сохраняет оригинальный размер паттерна */
-    background-repeat: repeat; /* Повторяет паттерн по всей площади */
-    padding: 20px;
-    width: 250px;
-    position: sticky;
-    top: 40px;
-    height: fit-content;
-    text-align: center;
-}
-
 .main-container {
     display: flex;
     min-height: 100vh;
@@ -50,8 +37,8 @@ body {
 
 .sidebar .logo {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     margin-right: 15px;
 }
