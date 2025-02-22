@@ -19,7 +19,9 @@
 </head>
 <body>
     <div class="main-container">
-        {% include sidebar.html %}
+        <header class="site-header">
+            {% include sidebar.html %}
+        </header>
         <div class="posts-container">
             {{ content }}
         </div>
