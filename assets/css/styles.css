@@ -316,22 +316,22 @@ body {
     font-size: 1rem;
 }
 
-.post-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
-
 .post::after {
     content: '';
     position: absolute;
-    bottom: 20px; /* Теперь подчёркивание на месте старого .post-footer */
+    bottom: 20px; /* Под текстом, на 20px ниже текста поста */
     left: 50%;
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
     height: 1px;
     background-color: #333333;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px; /* Отступ футера от подчёркивания, как раньше подчёркивание от футера */
 }
 
 .read-more {
