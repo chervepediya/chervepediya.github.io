@@ -247,6 +247,17 @@ body {
     padding-top: 0;
 }
 
+.post h1 {
+    color: #FFFFFF;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 0;
+    line-height: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
 .post h2 {
     color: #FFFFFF;
     font-size: 1.8rem;
@@ -273,7 +284,6 @@ body {
     width: 100%;
     max-height: 800px;
     overflow: hidden;
-    margin-top: 20px;
     margin-bottom: 20px;
 }
 
@@ -317,7 +327,6 @@ body {
     width: 100%;
     max-height: 800px;
     overflow: hidden;
-    margin-top: 20px;
     margin-bottom: 20px;
 }
 
@@ -359,10 +368,16 @@ body {
     z-index: -1;
 }
 
+.post-content {
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
 .post p {
     line-height: 1.6;
-    margin-top: 20px;
     margin-bottom: 0;
+    margin-top: 0;
     font-size: 1rem;
     position: relative;
 }
@@ -587,19 +602,8 @@ footer a:hover {
         padding-top: 20px;
     }
 
-    .post-image {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
     .image-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .post p {
-        margin-top: 20px;
     }
 
     .post p:last-of-type::after {
