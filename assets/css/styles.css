@@ -23,20 +23,21 @@ body {
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
-    position: relative;
+    position: relative; /* Шапка не фиксирована */
 }
 
 .site-header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Уменьшен отступ снизу */
 }
 
 .header-left {
     flex: 1;
     display: flex;
     justify-content: center;
+    padding-right: 10px; /* Уменьшен отступ справа */
 }
 
 .header-right {
@@ -44,6 +45,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between; /* Распределяем элементы по высоте */
+    padding-left: 10px; /* Уменьшен отступ слева */
 }
 
 .title-and-tag {
@@ -129,33 +132,34 @@ body {
     font-size: 0.9rem;
     font-style: italic;
     text-align: center;
+    margin-top: auto; /* Описание внизу правой части */
 }
 
 .header-nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 15px; /* Уменьшен отступ сверху */
     border-top: 1px solid #333333;
-    padding-top: 20px;
+    padding-top: 15px; /* Уменьшен отступ сверху */
 }
 
 .nav-link {
     color: #FFFFFF;
     text-decoration: none;
-    padding: 12px 10px;
+    padding: 8px 10px; /* Уменьшены отступы */
     transition: transform 0.3s ease;
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Уменьшен размер шрифта */
     white-space: nowrap;
 }
 
 .nav-link .icon {
-    width: 20px;
+    width: 18px; /* Уменьшен размер иконки */
     text-align: center;
-    margin-right: 15px;
-    font-size: 1rem;
+    margin-right: 10px;
+    font-size: 0.9rem; /* Уменьшен шрифт иконки */
 }
 
 .nav-link:active {
@@ -416,22 +420,9 @@ footer a:hover {
     border-radius: 10px;
 }
 
+/* Исходная мобильная версия */
 @media (max-width: 768px) {
-    .site-header {
-        padding: 10px;
-    }
-
-    .site-header-content {
-        flex-direction: column;
-    }
-
-    .header-left,
-    .header-right {
-        flex: none;
-        width: 100%;
-    }
-
-    .header-nav {
+    .sidebar {
         display: none;
     }
 
@@ -440,7 +431,10 @@ footer a:hover {
     }
 
     .main-container {
+        flex-direction: column;
         padding-top: 80px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .posts-container {
