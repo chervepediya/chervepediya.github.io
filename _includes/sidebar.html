@@ -1,6 +1,8 @@
-<div class="sidebar" data-aos="fade-right">
-    <div class="header">
-        <img src="{{ '/assets/images/logo.jpg' | absolute_url }}" alt="Логотип" class="logo">
+<div class="site-header-content" data-aos="fade-down">
+    <div class="header-left">
+        <img src="{{ '/assets/images/logo.jpg' | absolute_url }}" alt="Логотип" class="logo" style="width: 125px; height: 125px;">
+    </div>
+    <div class="header-right">
         <div class="title-and-tag">
             <h1 class="site-title">
                 {{ site.title }}
@@ -9,19 +11,19 @@
             </h1>
             <a href="https://t.me/chervethreadofficial" class="site-tag">@chervethreadofficial</a>
         </div>
+        <p class="site-description">{{ site.description }}</p>
     </div>
-    <p class="site-description">{{ site.description }}</p>
-    <nav>
-        {% for item in site.menu %}
-            {% if item.url contains '#' %}
-                <a href="{{ item.url }}" class="nav-link">
-                    <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
-                </a>
-            {% else %}
-                <a href="{{ item.url | absolute_url }}" class="nav-link">
-                    <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
-                </a>
-            {% endif %}
-        {% endfor %}
-    </nav>
 </div>
+<nav class="header-nav">
+    {% for item in site.menu %}
+        {% if item.url contains '#' %}
+            <a href="{{ item.url }}" class="nav-link">
+                <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+            </a>
+        {% else %}
+            <a href="{{ item.url | absolute_url }}" class="nav-link">
+                <span class="icon"><i class="{{ item.icon }}"></i></span> {{ item.title }}
+            </a>
+        {% endif %}
+    {% endfor %}
+</nav>
