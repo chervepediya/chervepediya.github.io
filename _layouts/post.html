@@ -6,8 +6,7 @@ layout: default
 </head>
 
 <div class="post" data-aos="fade-up">
-    <h2>{{ page.title }}</h2>
-    <p>{{ content }}</p>
+    <h1>{{ page.title }}</h1>
     {% if page.images and page.images.size > 0 %}
     <div class="image-grid">
         {% for image in page.images %}
@@ -41,6 +40,9 @@ layout: default
         {% endif %}
     </div>
     {% endif %}
+    <div class="post-content">
+        {{ content }}
+    </div>
     {% include comments.html %}
 </div>
 
