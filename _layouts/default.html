@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+default. html <!DOCTYPE html>
 <html lang="{{ site.lang | default: 'ru' }}">
 <head>
     <meta charset="UTF-8">
@@ -19,15 +19,13 @@
 </head>
 <body>
     <div class="main-container">
-        <header class="site-header">
-            {% include sidebar.html %}
-        </header>
+        {% include sidebar.html %}
         <div class="posts-container">
             {{ content }}
         </div>
     </div>
 
-    <!-- Мобильная шапка (не изменяется) -->
+    <!-- Мобильная шапка -->
     <header class="mobile-header">
         <div class="header-content">
             <div class="header-left">
