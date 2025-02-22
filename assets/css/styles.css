@@ -320,7 +320,7 @@ body {
 .post p:last-of-type::after {
     content: '';
     position: absolute;
-    bottom: -20px; /* 20px ниже текста */
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
     width: var(--underline-width, 100%);
@@ -329,14 +329,14 @@ body {
 }
 
 .post::after {
-    content: none; /* Отключаем старое подчёркивание */
+    content: none;
 }
 
 .post-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 40px; /* 20px от текста + 20px от подчёркивания */
+    margin-top: 30px;
 }
 
 .read-more {
@@ -534,7 +534,7 @@ footer a:hover {
     }
 
     .post p:last-of-type::after {
-        width: 100%; /* В мобильной версии подчёркивание на всю ширину */
+        width: 100%;
     }
 
     .about::after {
