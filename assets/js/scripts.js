@@ -89,6 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const textWidth = aboutText.offsetWidth;
         about.style.setProperty('--underline-width', `${textWidth}px`);
     }
+
+    // Инициализация Masonry для всех .image-grid
+    const grids = document.querySelectorAll('.image-grid');
+    grids.forEach(grid => {
+        const msnry = new Masonry(grid, {
+            itemSelector: '.image-item',
+            columnWidth: '.grid-sizer',
+            percentPosition: true
+        });
+        imagesLoaded(grid, () => {
+            msnry.layout();
+        });
+    });
 });
 
 // Управление выдвижным меню
