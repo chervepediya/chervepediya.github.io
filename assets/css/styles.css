@@ -9,7 +9,7 @@ body {
 .main-container {
     display: flex;
     min-height: 100vh;
-    padding-top: 40px; /* Общий отступ сверху для синхронизации */
+    padding-top: 40px;
     width: 100%;
     max-width: 1140px;
     margin: 0 auto;
@@ -22,7 +22,7 @@ body {
     padding: 20px;
     width: 250px;
     position: sticky;
-    top: 40px; /* Совпадает с padding-top main-container */
+    top: 40px;
     height: fit-content;
     text-align: center;
 }
@@ -90,6 +90,7 @@ body {
     width: 100%;
     z-index: -1;
     transform: skewX(-15deg);
+    animation: glitch 1.5s infinite; /* Добавляем анимацию глитча */
 }
 
 .sidebar .site-title .marker-blue {
@@ -106,6 +107,34 @@ body {
     background-color: #FFD700;
     transform: translateX(-5px) skewX(-15deg);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Кастомная анимация глитча */
+@keyframes glitch {
+    0% {
+        transform: skewX(-15deg) translateX(0);
+        opacity: 1;
+    }
+    5% {
+        transform: skewX(-15deg) translateX(4px);
+        opacity: 0.8;
+    }
+    10% {
+        transform: skewX(-15deg) translateX(-4px);
+        opacity: 0.9;
+    }
+    15% {
+        transform: skewX(-15deg) translateX(2px);
+        opacity: 0.7;
+    }
+    20% {
+        transform: skewX(-15deg) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: skewX(-15deg) translateX(0);
+        opacity: 1;
+    }
 }
 
 .sidebar .site-tag {
@@ -237,7 +266,7 @@ body {
 .posts-container {
     width: 600px;
     margin-left: 30px;
-    padding-top: 0; /* Убираем лишний отступ, чтобы выровнять с заголовком */
+    padding-top: 0;
 }
 
 .post {
@@ -248,7 +277,7 @@ body {
 }
 
 .post:first-child {
-    padding-top: 22px; /* Компенсация для выравнивания с верхом заголовка (20px padding + 2px margin-top) */
+    padding-top: 22px;
 }
 
 .post h1 {
@@ -603,7 +632,7 @@ footer a:hover {
     }
 
     .post:first-child {
-        padding-top: 20px; /* Возвращаем стандартное значение для мобильной версии */
+        padding-top: 20px;
     }
 
     .image-grid {
