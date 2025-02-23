@@ -354,7 +354,7 @@ body {
 
 .image-grid {
     width: 100%;
-    max-height: 800px;
+    max-height: 800px; /* Максимальная высота контейнера */
     overflow: hidden;
     margin-bottom: 20px;
 }
@@ -362,7 +362,6 @@ body {
 .image-item {
     position: relative;
     overflow: hidden;
-    width: 100%; /* Masonry работает с процентами */
 }
 
 .image-item img {
@@ -370,7 +369,7 @@ body {
     width: 100%;
     height: auto;
     max-height: 800px;
-    object-fit: contain; /* Показываем картинку целиком */
+    object-fit: cover; /* Обрезаем лишнее */
     cursor: pointer;
 }
 
