@@ -608,8 +608,8 @@ footer a:hover {
     width: 100vw;
     height: 100vh;
     background-color: #000;
-    filter: sepia(100%);
-    opacity: 0.1;
+    filter: grayscale(100%); /* Заменено sepia на grayscale */
+    opacity: 0.1; /* Дефолтное значение сохранено */
     pointer-events: none;
     z-index: 9999;
 }
