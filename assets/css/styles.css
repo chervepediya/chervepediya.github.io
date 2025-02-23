@@ -9,7 +9,7 @@ body {
 .main-container {
     display: flex;
     min-height: 100vh;
-    padding-top: 40px;
+    padding-top: 40px; /* Общий отступ сверху для синхронизации */
     width: 100%;
     max-width: 1140px;
     margin: 0 auto;
@@ -22,7 +22,7 @@ body {
     padding: 20px;
     width: 250px;
     position: sticky;
-    top: 40px;
+    top: 40px; /* Совпадает с padding-top main-container */
     height: fit-content;
     text-align: center;
 }
@@ -30,7 +30,7 @@ body {
 .sidebar .header {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Центрирование слева */
+    justify-content: flex-start;
     margin-bottom: 5px;
     position: relative;
 }
@@ -40,13 +40,13 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    margin-right: 20px; /* Небольшой отступ между логотипом и заголовком */
+    margin-right: 20px;
 }
 
 .sidebar .title-and-tag {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Выравнивание слева */
+    align-items: flex-start;
 }
 
 .sidebar .site-title {
@@ -58,7 +58,7 @@ body {
     padding: 2px 8px;
     z-index: 1;
     color: transparent;
-    margin-top: 2px; /* Сдвиг заголовка вверх для выравнивания с логотипом */
+    margin-top: 2px;
 }
 
 .sidebar .site-title::before,
@@ -115,7 +115,7 @@ body {
     text-decoration: none;
     margin-top: 5px;
     transition: background 0.3s ease;
-    margin-left: 2px; /* Выравнивание @ под первой буквой заголовка */
+    margin-left: 2px;
 }
 
 .sidebar .site-tag:hover {
@@ -130,7 +130,7 @@ body {
     padding-bottom: 15px;
     position: relative;
     text-align: left;
-    padding-left: 10px; /* Выравнивание описания слева */
+    padding-left: 10px;
 }
 
 .sidebar .site-description::after {
@@ -148,7 +148,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    padding-left: 10px; /* Выравнивание меню слева, совпадающее с описанием */
+    padding-left: 10px;
 }
 
 .nav-link {
@@ -237,7 +237,7 @@ body {
 .posts-container {
     width: 600px;
     margin-left: 30px;
-    padding-top: 15px;
+    padding-top: 0; /* Убираем лишний отступ, чтобы выровнять с заголовком */
 }
 
 .post {
@@ -248,7 +248,7 @@ body {
 }
 
 .post:first-child {
-    padding-top: 0;
+    padding-top: 22px; /* Компенсация для выравнивания с верхом заголовка (20px padding + 2px margin-top) */
 }
 
 .post h1 {
@@ -603,7 +603,7 @@ footer a:hover {
     }
 
     .post:first-child {
-        padding-top: 20px;
+        padding-top: 20px; /* Возвращаем стандартное значение для мобильной версии */
     }
 
     .image-grid {
