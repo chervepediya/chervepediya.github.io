@@ -353,13 +353,26 @@ body {
 }
 
 .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
+    position: relative;
+}
+
+.grid-sizer,
+.image-item {
     width: 100%;
-    max-height: 800px;
-    overflow: hidden;
-    margin-bottom: 20px;
+}
+
+@media (min-width: 576px) {
+    .grid-sizer,
+    .image-item {
+        width: 50%;
+    }
+}
+
+@media (min-width: 768px) {
+    .grid-sizer,
+    .image-item {
+        width: 33.33%;
+    }
 }
 
 .image-item {
@@ -369,9 +382,7 @@ body {
 
 .image-item img {
     display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: 800px;
+    width: 100%;
     height: auto;
     cursor: pointer;
 }
@@ -635,7 +646,7 @@ footer a:hover {
     }
 
     .image-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        /* Убраны свойства грида, Masonry управляет макетом */
     }
 
     .post p:last-of-type::after {
