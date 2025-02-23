@@ -352,42 +352,42 @@ body {
     border: none;
 }
 
-/* Новые стили для Masonry */
-.masonry-grid {
+/* Новые стили для Isotope */
+.isotope-grid {
     width: 100%;
     max-height: 800px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
-.masonry-item {
+.isotope-item {
     position: relative;
     overflow: hidden;
-    margin-bottom: 10px; /* Отступ между элементами */
+    margin-bottom: 10px;
 }
 
-.masonry-item img {
+.isotope-item img {
     display: block;
     width: 100%;
     height: auto;
     max-height: 800px;
-    object-fit: cover; /* Обрезаем лишнее */
+    object-fit: cover;
     cursor: pointer;
 }
 
-.masonry-item .telegram-post {
+.isotope-item .telegram-post {
     width: 100%;
     max-height: 800px;
     overflow-y: auto;
 }
 
-.masonry-item iframe {
+.isotope-item iframe {
     width: 100%;
     max-height: 800px;
     border: none;
 }
 
-.masonry-item .post-image-bg {
+.isotope-item .post-image-bg {
     position: absolute;
     top: -10px;
     left: -10px;
