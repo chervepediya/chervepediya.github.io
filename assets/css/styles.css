@@ -314,8 +314,6 @@ body {
 .post-image {
     position: relative;
     width: 100%;
-    max-height: 800px;
-    overflow: hidden;
     margin-bottom: 20px;
 }
 
@@ -335,32 +333,42 @@ body {
     display: block;
     margin: 0 auto;
     max-width: 100%;
-    max-height: 800px;
     height: auto;
     cursor: pointer;
 }
 
 .post-image .telegram-post {
     width: 100%;
-    max-height: 800px;
     overflow-y: auto;
 }
 
 .post-image iframe {
     width: 100%;
-    max-height: 800px;
     border: none;
 }
 
 .image-grid {
     width: 100%;
-    max-height: 800px;
-    overflow: hidden;
     margin-bottom: 20px;
 }
 
-.grid-sizer {
-    width: 33.33%; /* Базовая ширина колонок для Masonry */
+.grid-sizer,
+.image-item {
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .grid-sizer,
+    .image-item {
+        width: 50%; /* Две колонки на средних экранах */
+    }
+}
+
+@media (min-width: 768px) {
+    .grid-sizer,
+    .image-item {
+        width: 33.33%; /* Три колонки на больших экранах */
+    }
 }
 
 .image-item {
@@ -378,13 +386,11 @@ body {
 
 .image-item .telegram-post {
     width: 100%;
-    max-height: 800px;
     overflow-y: auto;
 }
 
 .image-item iframe {
     width: 100%;
-    max-height: 800px;
     border: none;
 }
 
@@ -634,8 +640,9 @@ footer a:hover {
         padding-top: 20px;
     }
 
-    .grid-sizer {
-        width: 50%; /* Для мобильных две колонки */
+    .grid-sizer,
+    .image-item {
+        width: 50%; /* Две колонки на мобильных */
     }
 
     .post p:last-of-type::after {
