@@ -353,9 +353,6 @@ body {
 }
 
 .image-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Две колонки по умолчанию */
-    gap: 10px;
     width: 100%;
     max-height: 800px;
     overflow: hidden;
@@ -365,6 +362,7 @@ body {
 .image-item {
     position: relative;
     overflow: hidden;
+    width: 100%; /* Masonry работает с процентами */
 }
 
 .image-item img {
@@ -372,7 +370,7 @@ body {
     width: 100%;
     height: auto;
     max-height: 800px;
-    object-fit: contain; /* Картинка целиком, без обрезки */
+    object-fit: contain; /* Показываем картинку целиком */
     cursor: pointer;
 }
 
@@ -632,10 +630,6 @@ footer a:hover {
 
     .post:first-child {
         padding-top: 20px;
-    }
-
-    .image-grid {
-        grid-template-columns: 1fr; /* Одна колонка на мобильных */
     }
 
     .post p:last-of-type::after {
