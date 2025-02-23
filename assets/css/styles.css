@@ -352,42 +352,43 @@ body {
     border: none;
 }
 
-/* Новые стили для Isotope */
-.isotope-grid {
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
     width: 100%;
     max-height: 800px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
-.isotope-item {
+.image-item {
     position: relative;
     overflow: hidden;
-    margin-bottom: 10px;
 }
 
-.isotope-item img {
+.image-item img {
     display: block;
-    width: 100%;
-    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
     max-height: 800px;
-    object-fit: cover;
+    height: auto;
     cursor: pointer;
 }
 
-.isotope-item .telegram-post {
+.image-item .telegram-post {
     width: 100%;
     max-height: 800px;
     overflow-y: auto;
 }
 
-.isotope-item iframe {
+.image-item iframe {
     width: 100%;
     max-height: 800px;
     border: none;
 }
 
-.isotope-item .post-image-bg {
+.image-item .post-image-bg {
     position: absolute;
     top: -10px;
     left: -10px;
@@ -631,6 +632,10 @@ footer a:hover {
 
     .post:first-child {
         padding-top: 20px;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     .post p:last-of-type::after {
