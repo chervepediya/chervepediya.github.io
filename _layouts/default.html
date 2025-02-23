@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/styles.css' | absolute_url }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="channel/post" data-width="100%"></script>
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
 </head>
 <body>
@@ -71,15 +71,17 @@
     <script src="{{ '/assets/js/scripts.js' | absolute_url }}"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var grids = document.querySelectorAll('.masonry-grid');
+        var grids = document.querySelectorAll('.isotope-grid');
         grids.forEach(function(grid) {
             imagesLoaded(grid, function() {
-                var msnry = new Masonry(grid, {
-                    itemSelector: '.masonry-item',
-                    columnWidth: 150, // Базовая ширина колонок
-                    gutter: 10, // Отступ между элементами
-                    fitWidth: true, // Подгоняем под ширину контейнера
-                    horizontalOrder: true // Слева направо
+                var iso = new Isotope(grid, {
+                    itemSelector: '.isotope-item',
+                    layoutMode: 'masonry', // Мозаичная сетка
+                    masonry: {
+                        columnWidth: 150, // Базовая ширина колонок
+                        gutter: 10, // Отступ между элементами
+                        fitWidth: true // Подгоняем под ширину контейнера
+                    }
                 });
             });
         });
