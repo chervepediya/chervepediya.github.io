@@ -8,9 +8,9 @@ layout: default
 <div class="post" data-aos="fade-up">
     <h1>{{ page.title }}</h1>
     {% if page.images and page.images.size > 0 %}
-    <div class="image-grid">
+    <div class="masonry-grid">
         {% for image in page.images %}
-        <div class="image-item">
+        <div class="masonry-item">
             {% if image contains 't.me' %}
                 {% assign telegram_parts = image | split: 't.me/' %}
                 {% assign telegram_path = telegram_parts[1] %}
