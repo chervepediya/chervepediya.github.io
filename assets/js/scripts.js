@@ -96,7 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const msnry = new Masonry(grid, {
             itemSelector: '.image-item',
             columnWidth: '.grid-sizer',
-            gutter: 10
+            percentPosition: true,
+            horizontalOrder: true // Для сохранения горизонтального порядка
         });
         imagesLoaded(grid, () => {
             msnry.layout();
