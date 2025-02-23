@@ -4,7 +4,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    filter: hue-rotate(180deg); /* Холодные оттенки (циан) */
+    filter: saturate(70%); /* Слегка приглушает цвета */
 }
 
 .main-container {
