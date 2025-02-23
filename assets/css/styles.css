@@ -4,6 +4,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    filter: hue-rotate(180deg); /* Холодные оттенки (циан) */
 }
 
 .main-container {
@@ -599,19 +600,6 @@ footer a:hover {
     max-height: 90%;
     border: 2px solid #333333;
     border-radius: 10px;
-}
-
-.filter-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000;
-    filter: grayscale(100%); /* Заменено sepia на grayscale */
-    opacity: 0.1; /* Дефолтное значение сохранено */
-    pointer-events: none;
-    z-index: 9999;
 }
 
 @media (max-width: 768px) {
