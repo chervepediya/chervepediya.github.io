@@ -30,7 +30,7 @@ body {
 .sidebar .header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Центрирование слева */
     margin-bottom: 5px;
     position: relative;
 }
@@ -40,13 +40,13 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    margin-right: 15px;
+    margin-right: 20px; /* Небольшой отступ между логотипом и заголовком */
 }
 
 .sidebar .title-and-tag {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start; /* Выравнивание слева */
 }
 
 .sidebar .site-title {
@@ -58,6 +58,7 @@ body {
     padding: 2px 8px;
     z-index: 1;
     color: transparent;
+    margin-top: 2px; /* Сдвиг заголовка вверх для выравнивания с логотипом */
 }
 
 .sidebar .site-title::before,
@@ -114,6 +115,7 @@ body {
     text-decoration: none;
     margin-top: 5px;
     transition: background 0.3s ease;
+    margin-left: 2px; /* Выравнивание @ под первой буквой заголовка */
 }
 
 .sidebar .site-tag:hover {
@@ -128,6 +130,7 @@ body {
     padding-bottom: 15px;
     position: relative;
     text-align: left;
+    padding-left: 10px; /* Выравнивание описания слева */
 }
 
 .sidebar .site-description::after {
@@ -145,6 +148,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    padding-left: 10px; /* Выравнивание меню слева, совпадающее с описанием */
 }
 
 .nav-link {
