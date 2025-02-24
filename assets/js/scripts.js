@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
         about.style.setProperty('--underline-width', `${textWidth}px`);
     }
 
-    // Инициализация Masonry для всех .image-grid
-    const grids = document.querySelectorAll('.image-grid');
+    // Инициализация Masonry для всех .masonry-grid
+    const grids = document.querySelectorAll('.masonry-grid');
     grids.forEach(grid => {
         const msnry = new Masonry(grid, {
-            itemSelector: '.image-item',
-            columnWidth: '.grid-sizer',
+            itemSelector: '.masonry-item',
+            columnWidth: '.masonry-item',
             percentPosition: true,
-            horizontalOrder: true // Для сохранения горизонтального порядка
+            gutter: 10
         });
         imagesLoaded(grid, () => {
             msnry.layout();
