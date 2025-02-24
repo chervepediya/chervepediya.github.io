@@ -347,65 +347,6 @@ body {
     border: none;
 }
 
-.image-grid {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.grid-sizer,
-.image-item {
-    width: 100%;
-}
-
-@media (min-width: 576px) {
-    .grid-sizer,
-    .image-item {
-        width: 50%; /* Две колонки на средних экранах */
-    }
-}
-
-@media (min-width: 768px) {
-    .grid-sizer,
-    .image-item {
-        width: 33.33%; /* Три колонки на больших экранах */
-    }
-}
-
-.image-item {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.image-item img {
-    display: block;
-    width: 100%;
-    height: auto;
-    cursor: pointer;
-}
-
-.image-item .telegram-post {
-    width: 100%;
-    overflow-y: auto;
-}
-
-.image-item iframe {
-    width: 100%;
-    border: none;
-}
-
-.image-item .post-image-bg {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
-}
-
 .post-content {
     line-height: 1.6;
     margin-bottom: 20px;
@@ -638,11 +579,6 @@ footer a:hover {
 
     .post:first-child {
         padding-top: 20px;
-    }
-
-    .grid-sizer,
-    .image-item {
-        width: 50%; /* Две колонки на мобильных */
     }
 
     .post p:last-of-type::after {
