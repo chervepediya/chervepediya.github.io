@@ -1,10 +1,9 @@
 <div class="post" data-aos="fade-up">
     <h2>{{ post.title }}</h2>
     {% if post.images and post.images.size > 0 %}
-    <div class="image-grid">
-        <div class="grid-sizer"></div>
+    <div class="masonry-grid">
         {% for image in post.images %}
-        <div class="image-item">
+        <div class="masonry-item">
             {% if image contains 't.me' %}
                 {% assign telegram_parts = image | split: 't.me/' %}
                 {% assign telegram_path = telegram_parts[1] %}
