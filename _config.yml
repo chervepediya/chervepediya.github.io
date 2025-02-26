@@ -21,7 +21,7 @@ menu:
     url: "/"
     icon: "fas fa-home"
   - title: Черветред
-    url: "/about/"
+    url: "/chervethread/"
     icon: "fas fa-user"
   - title: Контакты
     url: "#footer"
