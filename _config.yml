@@ -14,6 +14,7 @@ paginate_path: "/page:num/"  # Шаблон URL для страниц пагин
 plugins:
   - jekyll-seo-tag
   - jekyll-paginate
+  - jekyll-sitemap
 
 # Меню с иконками
 menu:
