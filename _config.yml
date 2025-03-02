@@ -29,6 +29,6 @@ menu:
   - title: Архив
     url: "/archive/"
     icon: "fas fa-archive"
-  - title: Манифест черветреда
+  - title: Манифест Черветреда
     url: "/manifest/"
     icon: "fas fa-file-alt"
