@@ -1,3 +1,37 @@
-User-agent: *
+User-agent: Googlebot
 Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: AOLbot
+Allow: /
+
+User-agent: Exabot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: NaverBot
+Allow: /
+
+User-agent: TencentTraveler
+Allow: /
+
+User-agent: SeznamBot
+Allow: /
+
 Sitemap: https://chervepediya.github.io/sitemap.xml
