@@ -1,5 +1,5 @@
 ---
-title: "Путин Пыня - вор, педофил, убийца"
+title: "Путин Пыня"
 layout: post
 description: "черветред, червепедия, путин, пыня"
 images: https://i.ytimg.com/vi/9uxLJ0X6Cvs/oar2.jpg
