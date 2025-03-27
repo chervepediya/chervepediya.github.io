@@ -25,7 +25,7 @@ social:
 
 # Geo tags
 geo:
-  country: РОССИЯ
+  country: россия
   city: москва
 
 # Build settings
@@ -53,7 +53,7 @@ defaults:
     scope:
       path: ""
     values:
-      image: /assets/images/logo.png
+      image:
   -
     scope:
       path: "_posts"
