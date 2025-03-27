@@ -14,10 +14,14 @@ layout: default
 
         {{ content }}
 
-        <footer class="post-meta">
-            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d.%m.%Y" }}</time>
-            <span class="dot"></span>
-            <span>{{ page.author | default: site.author }}</span>
+        <footer class="info">
+            <div class="info-inner">
+                <div class="post-meta">
+                    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d.%m.%Y" }}</time>
+                    <span class="dot"></span>
+                    <span>{{ page.author | default: site.author }}</span>
+                </div>
+            </div>
         </footer>
     </div>
 </div>
