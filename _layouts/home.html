@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+{% for post in paginator.posts %}
+<article>
+    <div class="post-content">
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+
+        {% if post.image %}
+        <a href="{{ post.url | relative_url }}">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+        </a>
+        {% endif %}
+
+        <div class="excerpt">
+            {{ post.excerpt }}
+        </div>
+
+        <footer class="info">
+            <div class="info-inner">
+                <div class="post-meta">
+                    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d.%m.%Y" }}</time>
+                    <span class="dot"></span>
+                    <span>{{ post.author | default: site.author }}</span>
+                </div>
+
+                <div class="post-read-more">
+                    <a href="{{ post.url | relative_url }}">Перейти</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</article>
+{% endfor %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}">
+    <meta name="author" content="{{ site.author }}">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}{% if page.image %}{{ page.image }}{% else %}/assets/images/logo.png{% endif %}">
+    <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}{% if page.image %}{{ page.image }}{% else %}/assets/images/logo.png{% endif %}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ site.baseurl }}/assets/images/favicon.ico">
+
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <main>
+            {% include sidebar.html %}
+
+            <section>
+                {{ content }}
+
+                {% if page.layout == 'home' %}
+                <div class="pagi-wrap flex">
+                    {% if paginator.total_pages > 1 %}
+                    <nav class="pagi flex gap3 align-center">
+                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | relative_url }}"{% endif %} class="flex{% if paginator.previous_page %} has_{% endif %}page">
+                            <span class="pagi-icon flex"><i class="fas fa-arrow-left"></i></span>
+                        </a>
+
+                        <span class="current_page">страница {{ paginator.page }} из {{ paginator.total_pages }}</span>
+
+                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | relative_url }}"{% endif %} class="flex{% if paginator.next_page %} has_{% endif %}page">
+                            <span class="pagi-icon flex"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </nav>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </section>
+        </main>
+
+        <footer class="footer-bottom">
+            <div class="social-icons">
+                <span>Мы в соцсетях</span>
+                <a href="{{ site.social.telegram }}" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="{{ site.social.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="{{ site.social.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+
+            <div class="geo-tags">
+                <span>{{ site.geo.country }}</span>
+                <span class="dot"></span>
+                <span>{{ site.geo.city }}</span>
+            </div>
+
+            <div class="footer-logo">
+                <img src="{{ site.baseurl }}/assets/images/logo.png" alt="{{ site.title }} logo">
+                <span class="footer-brand">{{ site.title }}</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Theme toggle -->
+    <button class="theme-toggle" title="Сменить тему" type="button">
+        <span class="toggle"></span>
+    </button>
+
+    <!-- Scroll to top -->
+    <div class="scroll-to-top" title="Наверх">
+        <span class="flex">
+            <i class="fas fa-chevron-up"></i>
+        </span>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+</body>
+</html>
