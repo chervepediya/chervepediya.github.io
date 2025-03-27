@@ -13,7 +13,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}{% if page.image %}{{ page.image }}{% else %}/assets/images/logo.png{% endif %}">
+    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% endif %}">
     <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
@@ -22,7 +22,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}{% if page.image %}{{ page.image }}{% else %}/assets/images/logo.png{% endif %}">
+    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% endif %}">
 
     <!-- Favicon -->
     <link rel="icon" href="{{ site.baseurl }}/assets/images/favicon.ico">
@@ -43,13 +43,13 @@
                 <div class="pagi-wrap flex">
                     {% if paginator.total_pages > 1 %}
                     <nav class="pagi flex gap3 align-center">
-                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | relative_url }}"{% endif %} class="flex{% if paginator.previous_page %} has_{% endif %}page">
+                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | relative_url }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}">
                             <span class="pagi-icon flex"><i class="fas fa-arrow-left"></i></span>
                         </a>
 
                         <span class="current_page">страница {{ paginator.page }} из {{ paginator.total_pages }}</span>
 
-                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | relative_url }}"{% endif %} class="flex{% if paginator.next_page %} has_{% endif %}page">
+                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | relative_url }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}">
                             <span class="pagi-icon flex"><i class="fas fa-arrow-right"></i></span>
                         </a>
                     </nav>
@@ -88,7 +88,7 @@
     <!-- Scroll to top -->
     <div class="scroll-to-top" title="Наверх">
         <span class="flex">
-            <i class="fas fa-chevron-up"></i>
+            <i class="fas fa-arrow-up"></i>
         </span>
     </div>
 
