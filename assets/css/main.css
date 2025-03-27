@@ -431,6 +431,14 @@ article {
     margin: 0 0 var(--text-margin) 0;
 }
 
+.post-content h2 a {
+    color: rgba(var(--c-text)); /* Цвет как у .sb-title */
+}
+
+.post-content h2 a:hover {
+    color: rgba(var(--c-acc1));
+}
+
 .post-content h3 {
     font-size: 1.1em;
     font-weight: 700;
@@ -440,6 +448,7 @@ article {
 .post-content p {
     margin: var(--text-margin) 0;
     line-height: var(--line-height);
+    font-size: var(--font-size); /* Восстановлен стандартный размер текста */
 }
 
 .post-content ul, .post-content ol {
@@ -466,6 +475,7 @@ article {
 
 .post-content .excerpt {
     margin-top: var(--text-margin);
+    font-size: var(--font-size); /* Восстановлен стандартный размер текста */
 }
 
 /* Post footer */
