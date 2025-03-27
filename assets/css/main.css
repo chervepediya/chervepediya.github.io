@@ -191,16 +191,13 @@ main {
     justify-content: center;
     margin: var(--gap-top-bottom) 0;
     grid-template-areas: "sb post";
+    align-items: flex-start; /* Выравнивание по верху логотипа */
 }
 
 footer.footer-bottom {
-    text-align: center;
-    padding: var(--gap3);
-    letter-spacing: 1px;
-    font-weight: 500;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start; /* Иконки соцсетей слева */
+    padding: var(--gap3);
     border-top: 1px solid rgba(var(--c-border));
 }
 
@@ -410,6 +407,7 @@ span.current_page {
 section {
     grid-area: post;
     width: var(--post-width);
+    align-self: start; /* Выравнивание по верху логотипа */
 }
 
 article {
@@ -426,6 +424,7 @@ article {
 }
 
 .post-content h2 {
+    color: rgba(var(--c-text)); /* Тот же цвет, что у заголовка сайта */
     font-size: 1.3em;
     font-weight: 700;
     margin: var(--text-margin) 0;
@@ -484,8 +483,8 @@ footer.info {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 20%;
-    width: 60%;
+    left: calc(20% + var(--gap1)); /* Отступ от метаданных */
+    width: calc(60% - var(--gap1)); /* Подчеркивание только между метаданными и "Перейти" */
     height: 1px;
     background-color: rgba(var(--c-link));
 }
@@ -520,8 +519,8 @@ footer.info {
 
 /* Theme toggle */
 .theme-toggle {
-    position: fixed;
-    bottom: var(--gap2);
+    position: absolute;
+    top: var(--gap-top-bottom); /* Выравнивание по верху логотипа */
     right: var(--gap2);
     z-index: 100;
 }
