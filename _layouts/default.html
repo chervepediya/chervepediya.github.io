@@ -57,33 +57,21 @@
                 </div>
                 {% endif %}
             </section>
+
+            <!-- Theme toggle -->
+            <button class="theme-toggle" title="Сменить тему" type="button">
+                <span class="toggle"></span>
+            </button>
         </main>
 
         <footer class="footer-bottom">
             <div class="social-icons">
-                <span>Мы в соцсетях</span>
                 <a href="{{ site.social.telegram }}" target="_blank"><i class="fab fa-telegram"></i></a>
                 <a href="{{ site.social.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
                 <a href="{{ site.social.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
             </div>
-
-            <div class="geo-tags">
-                <span>{{ site.geo.country }}</span>
-                <span class="dot"></span>
-                <span>{{ site.geo.city }}</span>
-            </div>
-
-            <div class="footer-logo">
-                <img src="{{ site.baseurl }}/assets/images/logo.png" alt="{{ site.title }} logo">
-                <span class="footer-brand">{{ site.title }}</span>
-            </div>
         </footer>
     </div>
-
-    <!-- Theme toggle -->
-    <button class="theme-toggle" title="Сменить тему" type="button">
-        <span class="toggle"></span>
-    </button>
 
     <!-- Scroll to top -->
     <div class="scroll-to-top" title="Наверх">
