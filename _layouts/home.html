@@ -8,9 +8,11 @@ layout: default
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
 
         {% if post.image %}
-        <a href="{{ post.url | relative_url }}">
-            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-        </a>
+        <div class="post-image">
+            <a href="{{ post.url | relative_url }}">
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+            </a>
+        </div>
         {% endif %}
 
         <div class="excerpt">
@@ -23,8 +25,9 @@ layout: default
                     <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d.%m.%Y" }}</time>
                     <span class="dot"></span>
                     <span>{{ post.author | default: site.author }}</span>
-                    <span class="post-meta-line"></span>
-                    <a href="{{ post.url | relative_url }}" class="post-meta-link">перейти</a>
+                </div>
+                <div class="post-read-more">
+                    <a href="{{ post.url | relative_url }}">Перейти</a>
                 </div>
             </div>
         </footer>
