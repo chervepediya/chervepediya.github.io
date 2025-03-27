@@ -3,16 +3,20 @@ layout: default
 ---
 
 <div class="post-container">
-    <header class="post-header">
-        <h1 class="post-title">{{ page.title }}</h1>
-    </header>
-
     <div class="post-content">
+        <h2>{{ page.title }}</h2>
+
         {% if page.image %}
-        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+        <div class="post-image">
+            <a href="{{ page.url | relative_url }}">
+                <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+            </a>
+        </div>
         {% endif %}
 
-        {{ content }}
+        <div class="excerpt">
+            {{ content }}
+        </div>
 
         <footer class="info">
             <div class="info-inner">
