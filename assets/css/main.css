@@ -423,6 +423,7 @@ article {
 
 .post-content {
     line-height: var(--line-height);
+    font-size: var(--font-size); /* Базовый размер шрифта для всего контента */
 }
 
 .post-content h2 {
@@ -432,7 +433,7 @@ article {
 }
 
 .post-content h2 a {
-    color: rgba(var(--c-text)); /* Цвет как у .sb-title */
+    color: rgba(var(--c-text));
 }
 
 .post-content h2 a:hover {
@@ -448,17 +449,26 @@ article {
 .post-content p {
     margin: var(--text-margin) 0;
     line-height: var(--line-height);
-    font-size: var(--font-size); /* Восстановлен стандартный размер текста */
+    font-size: var(--font-size);
 }
 
 .post-content ul, .post-content ol {
     padding-left: var(--text-margin);
     margin: var(--text-margin) 0;
     line-height: var(--line-height);
+    font-size: var(--font-size);
 }
 
 .post-content li {
     padding-left: var(--gap1);
+    font-size: var(--font-size);
+}
+
+.post-content blockquote {
+    margin: var(--text-margin) 0;
+    padding: 0 var(--gap1);
+    border-left: 3px solid rgba(var(--c-acc1));
+    font-size: var(--font-size);
 }
 
 .post-image {
@@ -475,7 +485,7 @@ article {
 
 .post-content .excerpt {
     margin-top: var(--text-margin);
-    font-size: var(--font-size); /* Восстановлен стандартный размер текста */
+    font-size: var(--font-size);
 }
 
 /* Post footer */
