@@ -23,10 +23,8 @@ layout: default
                     <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d.%m.%Y" }}</time>
                     <span class="dot"></span>
                     <span>{{ post.author | default: site.author }}</span>
-                </div>
-
-                <div class="post-read-more">
-                    <a href="{{ post.url | relative_url }}"><i class="fas fa-arrow-right"></i></a>
+                    <span class="post-meta-line"></span>
+                    <a href="{{ post.url | relative_url }}" class="post-meta-link">перейти</a>
                 </div>
             </div>
         </footer>
