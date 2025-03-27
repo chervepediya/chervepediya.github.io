@@ -390,7 +390,7 @@ nav.pagi a.has_page {
     cursor: pointer;
 }
 
-nav.pagi a[class*="page"] span.pagi-icon {
+nav.pagni a[class*="page"] span.pagi-icon {
     opacity: 0.2;
 }
 
@@ -497,12 +497,17 @@ footer.info {
 }
 
 .post-read-more a {
-    padding: 0.8rem 2rem;
     background-color: rgba(var(--c-bg2));
     color: rgba(var(--c-text));
     border: 1px solid rgba(var(--c-border));
-    border-radius: var(--round1);
-    font-weight: 500;
+    border-radius: var(--circle);
+    padding: 0.5rem;
+    font-size: 0.9em;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.2s ease;
 }
 
@@ -651,6 +656,11 @@ footer.info {
 
 .footer-brand {
     font-weight: 600;
+}
+
+/* Отступ текста от заголовка в превью, если нет картинки */
+.post-content h2 + .excerpt {
+    margin-top: var(--text-margin);
 }
 
 /* Responsive styles */
