@@ -8,9 +8,7 @@ layout: default
 
         {% if page.image %}
         <div class="post-image">
-            <a href="{{ page.url | relative_url }}">
-                <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
-            </a>
+            <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
         </div>
         {% endif %}
 
@@ -18,14 +16,10 @@ layout: default
             {{ content }}
         </div>
 
-        <footer class="info">
-            <div class="info-inner">
-                <div class="post-meta">
-                    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d.%m.%Y" }}</time>
-                    <span class="dot"></span>
-                    <span>{{ page.author | default: site.author }}</span>
-                </div>
-            </div>
+        <footer class="post-meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d.%m.%Y" }}</time>
+            <span class="dot"></span>
+            <span>{{ page.author | default: site.author }}</span>
         </footer>
     </div>
 </div>
