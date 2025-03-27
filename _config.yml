@@ -1,0 +1,63 @@
+title: ЧЕРВЕПЕДИЯ
+description: Черветред — это антироссийская ветка тредов на Дваче, созданная для антигосударственных и антипутинских высказываний.
+email: your-email@example.com
+baseurl: ""
+url: ""
+paginate: 5
+paginate_path: "/page:num/"
+
+# Настройки меню
+navigation:
+  - title: Главная
+    url: /
+  - title: Черветред
+    url: /chervethread/
+  - title: Манифест
+    url: /manifest/
+  - title: О нас
+    url: /about/
+
+# Social media links
+social:
+  telegram: https://t.me/your_telegram
+  youtube: https://youtube.com/@your_youtube
+  twitter: https://twitter.com/your_twitter
+
+# Geo tags
+geo:
+  country: РОССИЯ
+  city: москва
+
+# Build settings
+markdown: kramdown
+permalink: /:title/
+plugins:
+  - jekyll-paginate
+  - jekyll-seo-tag
+
+include:
+  - _pages
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# SEO Settings
+keywords: Черветред, Червепедия, Двач, Кинаман, Dr. Crow, создатель черветреда, Червепедия
+author: Червепедия
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      image: /assets/images/logo.png
+  -
+    scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"
+      permalink: /:title/

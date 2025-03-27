@@ -1,0 +1,83 @@
+---
+layout: default
+title: Поиск
+permalink: /search/
+---
+
+<div class="search-container">
+    <h1 class="search-title">Результаты поиска</h1>
+
+    <div id="search-results"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the query parameter from the URL
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('q');
+
+        if (!query) {
+            document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
+            return;
+        }
+
+        // Display the query
+        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+
+        // Fetch search index
+        fetch('/assets/js/search_index.json')
+            .then(response => response.json())
+            .then(data => {
+                const results = searchIndex(data, query);
+                displayResults(results, query);
+            })
+            .catch(error => {
+                console.error('Error loading search index:', error);
+                document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
+            });
+    });
+
+    function searchIndex(data, query) {
+        // Simple search function that looks for the query in title, content and tags
+        const results = [];
+        const queryLower = query.toLowerCase();
+
+        data.forEach(item => {
+            const titleMatch = item.title.toLowerCase().includes(queryLower);
+            const contentMatch = item.content.toLowerCase().includes(queryLower);
+
+            if (titleMatch || contentMatch) {
+                results.push(item);
+            }
+        });
+
+        return results;
+    }
+
+    function displayResults(results, query) {
+        const resultsDiv = document.getElementById('search-results');
+
+        if (results.length === 0) {
+            resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
+            return;
+        }
+
+        let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
+        html += '<div class="search-results-list">';
+
+        results.forEach(result => {
+            html += `
+                <article class="search-result">
+                    <h2><a href="${result.url}">${result.title}</a></h2>
+                    <div class="search-excerpt">${result.excerpt}</div>
+                    <div class="search-meta">
+                        <time>${result.date}</time>
+                    </div>
+                </article>
+            `;
+        });
+
+        html += '</div>';
+        resultsDiv.innerHTML = html;
+    }
+</script>

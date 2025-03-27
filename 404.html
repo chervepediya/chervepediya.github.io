@@ -1,0 +1,33 @@
+---
+layout: default
+title: 404 - Страница не найдена
+permalink: /404.html
+---
+
+<div class="error-container">
+    <h1>404</h1>
+    <h2>Страница не найдена</h2>
+    <p>Запрошенная страница не существует или была перемещена.</p>
+    <p>Попробуйте вернуться на <a href="{{ site.baseurl }}/">главную страницу</a> или воспользуйтесь поиском.</p>
+</div>
+
+<style>
+    .error-container {
+        text-align: center;
+        padding: var(--gap4) 0;
+    }
+
+    .error-container h1 {
+        font-size: 6em;
+        margin-bottom: var(--gap2);
+        color: rgba(var(--c-acc1));
+    }
+
+    .error-container h2 {
+        margin-bottom: var(--gap3);
+    }
+
+    .error-container p {
+        margin-bottom: var(--gap2);
+    }
+</style>
