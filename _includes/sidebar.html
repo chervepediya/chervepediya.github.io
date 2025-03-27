@@ -1,0 +1,37 @@
+<aside>
+    <div class="sb-inner flex">
+        <div class="sidebar-icon flex circle">
+            <img src="{{ site.baseurl }}/assets/images/logo.png" alt="{{ site.title }} logo">
+        </div>
+
+        <div class="sb-title">{{ site.title }}</div>
+
+        <div class="sb-description">{{ site.description }}</div>
+
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <form class="search flex align-center" action="/search" method="get">
+            <button class="search" aria-label="искать" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+            </button>
+            <input type="text" name="q" value="{% if page.url contains '/search' %}{{ page.query }}{% endif %}" placeholder="поиск" autocomplete="off"/>
+        </form>
+
+        <nav class="menu" aria-label="Основная навигация">
+            <ul>
+                {% for item in site.navigation %}
+                <li>
+                    <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</aside>
