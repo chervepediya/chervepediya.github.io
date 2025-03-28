@@ -5,81 +5,94 @@ permalink: /search/
 ---
 
 <div class="search-container">
-    <h1>Поиск по сайту</h1>
-    <form action="/search/" method="get" class="search-form">
-        <input type="text" name="q" placeholder="Введите запрос" value="{{ page.query }}">
-        <button type="submit">Найти</button>
-    </form>
+    <h1 class="search-title">Результаты поиска</h1>
+
     <div id="search-results"></div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Получаем запрос из URL
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get('q');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the query parameter from the URL
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('q');
 
-    // Если запроса нет, показываем сообщение
-    if (!query) {
-        document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
-        return;
-    }
+        if (!query) {
+            document.getElementById('search-results').innerHTML = '<p> Поисковый запрос</p>';
+            return;
+        }
 
-    // Показываем, что идёт загрузка
-    document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+        // Display the query
+        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-    // Загружаем индекс поиска из assets/js
-    const searchIndexPath = '{{ site.baseurl }}/assets/js/search_index.json';
-    fetch(searchIndexPath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Не удалось загрузить индекс поиска: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Выполняем поиск
-            const results = searchData(data, query);
-            displayResults(results, query);
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Проверьте консоль для деталей.</p>';
-        });
-});
-
-function searchData(data, query) {
-    const queryLower = query.toLowerCase();
-    return data.filter(item => 
-        (item.title && item.title.toLowerCase().includes(queryLower)) || 
-        (item.content && item.content.toLowerCase().includes(queryLower))
-    );
-}
-
-function displayResults(results, query) {
-    const resultsDiv = document.getElementById('search-results');
-
-    if (results.length === 0) {
-        resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
-        return;
-    }
-
-    let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-    html += '<div class="search-results-list">';
-
-    results.forEach(result => {
-        html += `
-            <article class="search-result">
-                <h2><a href="${result.url}">${result.title}</a></h2>
-                <div class="search-excerpt">${result.excerpt || 'Нет краткого описания'}</div>
-                <div class="search-meta">
-                    ${result.date ? `<time>${result.date}</time>` : ''}
-                </div>
-            </article>
-        `;
+        // Fetch search index with correct path
+        fetch('{{ site.baseurl }}/assets/js/search_index.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Не удалось загрузить индекс поиска: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const results = searchIndex(data, query);
+                displayResults(results, query);
+            })
+            .catch(error => {
+                console.error('Error loading search index:', error);
+                document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
+            });
     });
 
-    html += '</div>';
-    resultsDiv.innerHTML = html;
-}
+    function searchIndex(data, query) {
+        // Simple search function that looks for the query in title and content
+        const results = [];
+        const queryLower = query.toLowerCase();
+
+        data.forEach(item => {
+            const titleMatch = item.title.toLowerCase().includes(queryLower);
+            const contentMatch = item.content.toLowerCase().includes(queryLower);
+
+            if (titleMatch || contentMatch) {
+                results.push(item);
+            }
+        });
+
+        return results;
+    }
+
+    function displayResults(results, query) {
+        const resultsDiv = document.getElementById('search-results');
+
+        if (results.length === 0) {
+            resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
+            return;
+        }
+
+        let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
+        html += '<section class="search-results-list">'; // Используем <section> как на главной
+
+        results.forEach(result => {
+            html += `
+                <article>
+                    <div class="post-container">
+                        <div class="post-content">
+                            <h2><a href="${result.url}">${result.title}</a></h2>
+                            <div class="excerpt">${result.excerpt}</div>
+                        </div>
+                        <footer class="info">
+                            <div class="info-inner">
+                                <div class="post-meta">
+                                    ${result.date ? `<time datetime="${result.date}">${result.date}</time>` : ''}
+                                    ${result.date ? '<span class="dot"></span>' : ''}
+                                    <span>{{ site.author }}</span> <!-- Предполагается, что автор берётся из конфига -->
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </article>
+            `;
+        });
+
+        html += '</section>';
+        resultsDiv.innerHTML = html;
+    }
 </script>
