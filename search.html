@@ -17,7 +17,7 @@ permalink: /search/
         const query = params.get('q');
 
         if (!query) {
-            document.getElementById('search-results').innerHTML = '<p> Поисковый запрос</p>';
+            document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
             return;
         }
 
@@ -67,8 +67,8 @@ permalink: /search/
             return;
         }
 
-        let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-        html += '<section class="search-results-list">'; // Используем <section> как на главной
+        let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
+        html += '<section class="search-results-list">'; // Используем section как на главной
 
         results.forEach(result => {
             html += `
@@ -76,6 +76,13 @@ permalink: /search/
                     <div class="post-container">
                         <div class="post-content">
                             <h2><a href="${result.url}">${result.title}</a></h2>
+                            ${result.image ? `
+                                <div class="post-image">
+                                    <a href="${result.url}">
+                                        <img src="${result.image}" alt="${result.title}">
+                                    </a>
+                                </div>
+                            ` : ''}
                             <div class="excerpt">${result.excerpt}</div>
                         </div>
                         <footer class="info">
