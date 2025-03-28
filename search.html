@@ -28,11 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Показываем, что идёт загрузка
     document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-    // Загружаем индекс поиска
-    fetch('/search_index.json')
+    // Загружаем индекс поиска из assets/js
+    const searchIndexPath = '{{ site.baseurl }}/assets/js/search_index.json';
+    fetch(searchIndexPath)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Не удалось загрузить индекс поиска');
+                throw new Error('Не удалось загрузить индекс поиска: ' + response.status);
             }
             return response.json();
         })
@@ -43,39 +44,26 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Ошибка:', error);
-            document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Проверьте подключение или попробуйте позже.</p>';
+            document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Проверьте консоль для деталей.</p>';
         });
 });
 
 function searchData(data, query) {
-    // Приводим запрос к нижнему регистру для поиска без учёта регистра
     const queryLower = query.toLowerCase();
-    const results = [];
-
-    // Проходим по всем элементам данных
-    data.forEach(item => {
-        const title = item.title.toLowerCase();
-        const content = item.content.toLowerCase();
-
-        // Проверяем совпадения в заголовке или содержимом
-        if (title.includes(queryLower) || content.includes(queryLower)) {
-            results.push(item);
-        }
-    });
-
-    return results;
+    return data.filter(item => 
+        (item.title && item.title.toLowerCase().includes(queryLower)) || 
+        (item.content && item.content.toLowerCase().includes(queryLower))
+    );
 }
 
 function displayResults(results, query) {
     const resultsDiv = document.getElementById('search-results');
 
-    // Если ничего не найдено
     if (results.length === 0) {
         resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
         return;
     }
 
-    // Формируем HTML для результатов
     let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
     html += '<div class="search-results-list">';
 
@@ -83,7 +71,7 @@ function displayResults(results, query) {
         html += `
             <article class="search-result">
                 <h2><a href="${result.url}">${result.title}</a></h2>
-                <div class="search-excerpt">${result.excerpt}</div>
+                <div class="search-excerpt">${result.excerpt || 'Нет краткого описания'}</div>
                 <div class="search-meta">
                     ${result.date ? `<time>${result.date}</time>` : ''}
                 </div>
