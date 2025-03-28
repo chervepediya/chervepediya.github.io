@@ -99,10 +99,24 @@ p,h1,h2,h3,h4,h5,h6 {
     overflow-wrap: break-word;
 }
 
-/* Убираем outline при фокусе и клике на кликабельных элементах */
+/* Убираем outline и box-shadow для кликабельных элементов */
+a, button, input[type="submit"], input[type="button"] {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 a:focus, a:active,
-button:focus, button:active {
-    outline: none;
+button:focus, button:active,
+input[type="submit"]:focus, input[type="submit"]:active,
+input[type="button"]:focus, input[type="button"]:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+a:focus-visible, button:focus-visible,
+input[type="submit"]:focus-visible, input[type="button"]:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 /* Selection */
@@ -573,7 +587,7 @@ footer.info {
     border: 1px solid rgba(var(--c-acc1));
 }
 
-/* Scroll to top (исправлено для соответствия пагинации) */
+/* Scroll to top */
 .scroll-to-top {
     position: fixed;
     bottom: var(--gap2);
@@ -582,13 +596,15 @@ footer.info {
     color: rgba(var(--c-text));
     background-color: rgba(var(--c-bg2));
     border-radius: var(--circle);
+    cursor: pointer;
     border: 1px solid rgba(var(--c-border));
+    overflow: hidden;
     font-size: 1.5em;
     padding: 0.6rem;
 }
 
 .scroll-to-top span {
-    opacity: 1; /* Всегда видимая стрелка, как у активной пагинации */
+    opacity: 1; /* Стрелка всегда видима */
 }
 
 .scroll-to-top:hover {
