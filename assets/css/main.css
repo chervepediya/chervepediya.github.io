@@ -99,6 +99,12 @@ p,h1,h2,h3,h4,h5,h6 {
     overflow-wrap: break-word;
 }
 
+/* Убираем outline при фокусе и клике на кликабельных элементах */
+a:focus, a:active,
+button:focus, button:active {
+    outline: none;
+}
+
 /* Selection */
 ::-moz-selection {
     background-color: rgba(var(--c-acc1));
@@ -423,7 +429,7 @@ article {
 
 .post-content {
     line-height: var(--line-height);
-    font-size: var(--font-size); /* Базовый размер шрифта для всего контента */
+    font-size: var(--font-size);
 }
 
 .post-content h2 {
@@ -567,21 +573,26 @@ footer.info {
     border: 1px solid rgba(var(--c-acc1));
 }
 
-/* Scroll to top */
+/* Scroll to top (исправлено для соответствия пагинации) */
 .scroll-to-top {
     position: fixed;
     bottom: var(--gap2);
     left: var(--gap2);
     z-index: 100;
+    color: rgba(var(--c-text));
+    background-color: rgba(var(--c-bg2));
+    border-radius: var(--circle);
+    border: 1px solid rgba(var(--c-border));
+    font-size: 1.5em;
+    padding: 0.6rem;
 }
 
 .scroll-to-top span {
-    cursor: pointer;
-    font-size: 1.6em;
-    border: 1px solid rgba(var(--c-border));
-    border-radius: var(--circle);
-    padding: 0.4rem;
-    background-color: rgba(var(--c-bg2));
+    opacity: 1; /* Всегда видимая стрелка, как у активной пагинации */
+}
+
+.scroll-to-top:hover {
+    color: rgba(var(--c-acc1));
 }
 
 /* Comments section */
