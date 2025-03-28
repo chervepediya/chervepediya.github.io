@@ -85,7 +85,7 @@ button {
     display: inherit;
     cursor: pointer;
     color: inherit;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent; /* Убираем выделение на мобильных */
 }
 
 input {
@@ -94,7 +94,7 @@ input {
     outline: 0;
     padding: 0;
     background-color: transparent;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent; /* Убираем выделение на мобильных */
 }
 
 p,h1,h2,h3,h4,h5,h6 {
@@ -105,8 +105,8 @@ p,h1,h2,h3,h4,h5,h6 {
 a, button, input[type="submit"], input[type="button"] {
     outline: none !important;
     box-shadow: none !important;
-    -webkit-tap-highlight-color: transparent;
-    -moz-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent; /* Убираем выделение на мобильных */
+    -moz-tap-highlight-color: transparent; /* Для Firefox, если поддерживается */
 }
 
 a:focus, a:active,
@@ -372,10 +372,6 @@ nav.menu ul li a {
     border-right: 1px solid rgba(var(--c-border));
     padding: 0.7rem 2.5rem 0.7rem 0px;
     align-items: center;
-    -webkit-tap-highlight-color: transparent !important; /* Явно убираем выделение */
-    -moz-tap-highlight-color: transparent !important;
-    outline: none !important; /* Дополнительно для десктопа */
-    box-shadow: none !important;
 }
 
 nav.menu ul li a.current-page {
@@ -686,10 +682,6 @@ footer.info {
         align-items: center;
         border-right: 0;
         padding: 0;
-        -webkit-tap-highlight-color: transparent !important; /* Убираем выделение в медиа-запросе */
-        -moz-tap-highlight-color: transparent !important;
-        outline: none !important;
-        box-shadow: none !important;
     }
 
     nav.menu ul li a.current-page::after {
