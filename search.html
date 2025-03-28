@@ -13,9 +13,6 @@ permalink: /search/
     <div id="search-results"></div>
 </div>
 
-<script src="https://unpkg.com/lunr/lunr.js"></script>
-<script src="https://unpkg.com/lunr-languages/lunr.stemmer.support.js"></script>
-<script src="https://unpkg.com/lunr-languages/lunr.ru.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Получаем запрос из URL
@@ -33,38 +30,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Загружаем индекс поиска
     fetch('/search_index.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Не удалось загрузить индекс поиска');
+            }
+            return response.json();
+        })
         .then(data => {
-            // Создаём индекс с поддержкой русского языка
-            const idx = lunr(function () {
-                this.use(lunr.ru); // Подключаем русский стемминг
-                this.field('title', { boost: 10 }); // Заголовок важнее
-                this.field('content');
-                this.ref('url');
-                data.forEach(function (doc) {
-                    this.add(doc);
-                }, this);
-            });
-
             // Выполняем поиск
-            const results = idx.search(query);
-            const resultDocs = results.map(result => data.find(doc => doc.url === result.ref));
-            displayResults(resultDocs, query);
+            const results = searchData(data, query);
+            displayResults(results, query);
         })
         .catch(error => {
-            console.error('Ошибка загрузки индекса поиска:', error);
-            document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Попробуйте позже.</p>';
+            console.error('Ошибка:', error);
+            document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Проверьте подключение или попробуйте позже.</p>';
         });
 });
+
+function searchData(data, query) {
+    // Приводим запрос к нижнему регистру для поиска без учёта регистра
+    const queryLower = query.toLowerCase();
+    const results = [];
+
+    // Проходим по всем элементам данных
+    data.forEach(item => {
+        const title = item.title.toLowerCase();
+        const content = item.content.toLowerCase();
+
+        // Проверяем совпадения в заголовке или содержимом
+        if (title.includes(queryLower) || content.includes(queryLower)) {
+            results.push(item);
+        }
+    });
+
+    return results;
+}
 
 function displayResults(results, query) {
     const resultsDiv = document.getElementById('search-results');
 
+    // Если ничего не найдено
     if (results.length === 0) {
         resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
         return;
     }
 
+    // Формируем HTML для результатов
     let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
     html += '<div class="search-results-list">';
 
