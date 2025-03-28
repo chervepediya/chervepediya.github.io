@@ -67,13 +67,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('nav.menu ul li a');
 
+    // Удаляем класс current-page со всех ссылок
     navLinks.forEach(link => {
-        const linkPath = link.getAttribute('href');
-
-        if (currentPath === linkPath ||
-            (linkPath !== '/' && currentPath.startsWith(linkPath)) ||
-            (currentPath === '/' && linkPath === '/')) {
-            link.classList.add('current-page');
-        }
+        link.classList.remove('current-page');
     });
+
+    // Ищем точное совпадение
+    const exactMatch = Array.from(navLinks).find(link => link.getAttribute('href') === currentPath);
+    if (exactMatch) {
+        exactMatch.classList.add('current-page');
+    } else {
+        // Если точного совпадения нет, проверяем частичное совпадение
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+                link.classList.add('current-page');
+            }
+        });
+    }
 });
