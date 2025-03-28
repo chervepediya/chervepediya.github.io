@@ -5,79 +5,82 @@ permalink: /search/
 ---
 
 <div class="search-container">
-    <h1 class="search-title">Результаты поиска</h1>
-
+    <h1>Поиск по сайту</h1>
+    <form action="/search/" method="get" class="search-form">
+        <input type="text" name="q" placeholder="Введите запрос" value="{{ page.query }}">
+        <button type="submit">Найти</button>
+    </form>
     <div id="search-results"></div>
 </div>
 
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+<script src="https://unpkg.com/lunr-languages/lunr.stemmer.support.js"></script>
+<script src="https://unpkg.com/lunr-languages/lunr.ru.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get the query parameter from the URL
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get('q');
+document.addEventListener('DOMContentLoaded', function() {
+    // Получаем запрос из URL
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
 
-        if (!query) {
-            document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
-            return;
-        }
+    // Если запроса нет, показываем сообщение
+    if (!query) {
+        document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
+        return;
+    }
 
-        // Display the query
-        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+    // Показываем, что идёт загрузка
+    document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Fetch search index
-        fetch('/assets/js/search_index.json')
-            .then(response => response.json())
-            .then(data => {
-                const results = searchIndex(data, query);
-                displayResults(results, query);
-            })
-            .catch(error => {
-                console.error('Error loading search index:', error);
-                document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
+    // Загружаем индекс поиска
+    fetch('/search_index.json')
+        .then(response => response.json())
+        .then(data => {
+            // Создаём индекс с поддержкой русского языка
+            const idx = lunr(function () {
+                this.use(lunr.ru); // Подключаем русский стемминг
+                this.field('title', { boost: 10 }); // Заголовок важнее
+                this.field('content');
+                this.ref('url');
+                data.forEach(function (doc) {
+                    this.add(doc);
+                }, this);
             });
+
+            // Выполняем поиск
+            const results = idx.search(query);
+            const resultDocs = results.map(result => data.find(doc => doc.url === result.ref));
+            displayResults(resultDocs, query);
+        })
+        .catch(error => {
+            console.error('Ошибка загрузки индекса поиска:', error);
+            document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Попробуйте позже.</p>';
+        });
+});
+
+function displayResults(results, query) {
+    const resultsDiv = document.getElementById('search-results');
+
+    if (results.length === 0) {
+        resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
+        return;
+    }
+
+    let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
+    html += '<div class="search-results-list">';
+
+    results.forEach(result => {
+        html += `
+            <article class="search-result">
+                <h2><a href="${result.url}">${result.title}</a></h2>
+                <div class="search-excerpt">${result.excerpt}</div>
+                <div class="search-meta">
+                    ${result.date ? `<time>${result.date}</time>` : ''}
+                </div>
+            </article>
+        `;
     });
 
-    function searchIndex(data, query) {
-        // Simple search function that looks for the query in title, content and tags
-        const results = [];
-        const queryLower = query.toLowerCase();
-
-        data.forEach(item => {
-            const titleMatch = item.title.toLowerCase().includes(queryLower);
-            const contentMatch = item.content.toLowerCase().includes(queryLower);
-
-            if (titleMatch || contentMatch) {
-                results.push(item);
-            }
-        });
-
-        return results;
-    }
-
-    function displayResults(results, query) {
-        const resultsDiv = document.getElementById('search-results');
-
-        if (results.length === 0) {
-            resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
-            return;
-        }
-
-        let html = `<p>Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-        html += '<div class="search-results-list">';
-
-        results.forEach(result => {
-            html += `
-                <article class="search-result">
-                    <h2><a href="${result.url}">${result.title}</a></h2>
-                    <div class="search-excerpt">${result.excerpt}</div>
-                    <div class="search-meta">
-                        <time>${result.date}</time>
-                    </div>
-                </article>
-            `;
-        });
-
-        html += '</div>';
-        resultsDiv.innerHTML = html;
-    }
+    html += '</div>';
+    resultsDiv.innerHTML = html;
+}
 </script>
