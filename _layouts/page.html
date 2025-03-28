@@ -6,6 +6,14 @@ layout: default
     <div class="post-content">
         <h2>{{ page.title }}</h2>
 
+        {% if page.image %}
+        <div class="post-image">
+            <a href="{{ page.url | relative_url }}">
+                <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+            </a>
+        </div>
+        {% endif %}
+
         <div class="excerpt">
             {{ content }}
         </div>
