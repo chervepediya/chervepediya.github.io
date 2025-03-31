@@ -1,80 +1,142 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(100075544, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/100075544" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-<meta name="google-site-verification" content="WtWAvHg6J0MWXfI9XXyF0Nf9T95TQnOD-pmKKFsnKxE" />
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Title -->
     <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
-
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-
+    
     <!-- SEO Meta Tags -->
     <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
     <meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}">
     <meta name="author" content="{{ site.author }}">
-
+    <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url | replace:'index.html','' }}">
+    
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% endif %}">
+    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
     <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
-
+    <meta property="og:site_name" content="{{ site.title }}">
+    
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@{{ site.social.twitter_username }}">
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% endif %}">
-
-    <!-- Favicon -->
-    <link rel="icon" href="{{ site.baseurl }}/assets/images/favicon.ico">
-
-    <!-- CSS & Fonts -->
+    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Google site verification -->
+    <meta name="google-site-verification" content="WtWAvHg6J0MWXfI9XXyF0Nf9T95TQnOD-pmKKFsnKxE" />
+    
+    <!-- CSS & Fonts with preloading critical resources -->
+    <link rel="preload" href="{{ site.baseurl }}/assets/css/main.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ site.title }}",
+        "url": "{{ site.url }}{{ site.baseurl }}",
+        "description": "{{ site.description }}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ site.author }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ site.title }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ site.url }}{{ site.baseurl }}/apple-touch-icon.png"
+            }
+        }
+    }
+    </script>
+    
+    <!-- Article Schema (only for blog posts) -->
+    {% if page.layout == 'post' %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{ page.title }}",
+        "image": "{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}",
+        "datePublished": "{{ page.date | date_to_xmlschema }}",
+        "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ site.author }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ site.title }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ site.url }}{{ site.baseurl }}/apple-touch-icon.png"
+            }
+        },
+        "description": "{{ page.description }}"
+    }
+    </script>
+    {% endif %}
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(100075544, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/100075544" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
 </head>
 <body>
     <div class="page-container">
+        <header>
+            <!-- You can add a navigation menu or site header here -->
+        </header>
+        
         <main>
             {% include sidebar.html %}
 
             <section>
-                {{ content }}
+                <article>
+                    {{ content }}
+                </article>
 
                 {% if page.layout == 'home' %}
                 <div class="pagi-wrap flex">
                     {% if paginator.total_pages > 1 %}
-                    <nav class="pagi flex gap3 align-center">
-                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | relative_url }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}">
+                    <nav class="pagi flex gap3 align-center" aria-label="Pagination">
+                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | relative_url }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}" {% if paginator.previous_page %}aria-label="Предыдущая страница"{% else %}aria-disabled="true"{% endif %}>
                             <span class="pagi-icon flex"><i class="fas fa-arrow-left"></i></span>
                         </a>
 
                         <span class="current_page">страница {{ paginator.page }} из {{ paginator.total_pages }}</span>
 
-                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | relative_url }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}">
+                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | relative_url }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}" {% if paginator.next_page %}aria-label="Следующая страница"{% else %}aria-disabled="true"{% endif %}>
                             <span class="pagi-icon flex"><i class="fas fa-arrow-right"></i></span>
                         </a>
                     </nav>
@@ -86,32 +148,36 @@
 
         <footer class="footer-bottom">
             <div class="social-icons">
-                <a href="{{ site.social.telegram }}" target="_blank"><i class="fab fa-telegram"></i></a>
-                <a href="{{ site.social.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="{{ site.social.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="{{ site.social.telegram }}" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="{{ site.social.youtube }}" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="{{ site.social.twitter }}" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
             </div>
 
-            <div class="geo-tags">
-                <span>{{ site.geo.country }}</span>
+            <div class="geo-tags" itemscope itemtype="https://schema.org/PostalAddress">
+                <span itemprop="addressCountry">{{ site.geo.country }}</span>
                 <span class="dot"></span>
-                <span>{{ site.geo.city }}</span>
+                <span itemprop="addressLocality">{{ site.geo.city }}</span>
+            </div>
+            
+            <div class="copyright">
+                &copy; {{ site.time | date: '%Y' }} {{ site.title }}. Все права защищены.
             </div>
         </footer>
     </div>
 
     <!-- Theme toggle -->
-    <button class="theme-toggle" title="Сменить тему" type="button">
+    <button class="theme-toggle" title="Сменить тему" type="button" aria-label="Переключить светлую/темную тему">
         <span class="toggle"></span>
     </button>
 
     <!-- Scroll to top -->
-    <div class="scroll-to-top" title="Наверх">
+    <div class="scroll-to-top" title="Наверх" aria-label="Прокрутить наверх">
         <span class="flex">
             <i class="fas fa-arrow-up"></i>
         </span>
     </div>
 
-    <!-- JavaScript -->
-    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+    <!-- JavaScript with defer for non-critical scripts -->
+    <script defer src="{{ site.baseurl }}/assets/js/main.js"></script>
 </body>
 </html>
