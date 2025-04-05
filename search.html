@@ -24,7 +24,7 @@ permalink: /search/
         // Display the query
         document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Fetch search index with full URL
+        // Fetch search index with full URL and added slash
         fetch('{{ site.url }}{{ site.baseurl }}/assets/js/search_index.json')
             .then(response => {
                 if (!response.ok) {
