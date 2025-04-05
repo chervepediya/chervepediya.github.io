@@ -8,8 +8,8 @@ layout: default
 
         {% if page.image %}
         <div class="post-image">
-            <a href="{{ site.url }}{{ site.baseurl }}/{{ page.url }}">
-                <img src="{{ site.url }}{{ site.baseurl }}/{{ page.image }}" alt="{{ page.title }}">
+            <a href="{{ page.url | absolute_url }}">
+                <img src="{{ page.image | absolute_url }}" alt="{{ page.title }}">
             </a>
         </div>
         {% endif %}
