@@ -2,7 +2,7 @@ title: ЧЕРВЕПЕДИЯ
 description: Официальный вестник Черветреда.
 email:
 baseurl: ""
-url: ""
+url: "https://chervepediya.github.io"
 paginate: 5
 paginate_path: "/page:num/"
 
@@ -39,7 +39,6 @@ plugins:
 
   - name: generate-sitemap
     uses: cicirello/generate-sitemap@v1.10.1
-
 
 include:
   - _pages
