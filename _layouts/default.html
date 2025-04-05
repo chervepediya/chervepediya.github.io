@@ -17,7 +17,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
+    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}/{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
     <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url | replace:'index.html','' }}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
@@ -28,7 +28,7 @@
     <meta name="twitter:site" content="@{{ site.social.twitter_username }}">
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
+    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}/{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
     
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ site.url }}{{ site.baseurl }}/apple-touch-icon.png">
@@ -75,7 +75,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "{{ page.title }}",
-        "image": "{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}",
+        "image": "{% if page.image %}{{ site.url }}{{ site.baseurl }}/{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}",
         "datePublished": "{{ page.date | date_to_xmlschema }}",
         "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
         "author": {
@@ -130,13 +130,13 @@
                 <div class="pagi-wrap flex">
                     {% if paginator.total_pages > 1 %}
                     <nav class="pagi flex gap3 align-center" aria-label="Pagination">
-                        <a {% if paginator.previous_page %}href="{{ site.url }}{{ site.baseurl }}{{ paginator.previous_page_path }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}" {% if paginator.previous_page %}aria-label="Предыдущая страница"{% else %}aria-disabled="true"{% endif %}>
+                        <a {% if paginator.previous_page %}href="{{ site.url }}{{ site.baseurl }}/{{ paginator.previous_page_path }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}" {% if paginator.previous_page %}aria-label="Предыдущая страница"{% else %}aria-disabled="true"{% endif %}>
                             <span class="pagi-icon flex"><i class="fas fa-arrow-left"></i></span>
                         </a>
 
                         <span class="current_page">страница {{ paginator.page }} из {{ paginator.total_pages }}</span>
 
-                        <a {% if paginator.next_page %}href="{{ site.url }}{{ site.baseurl }}{{ paginator.next_page_path }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}" {% if paginator.next_page %}aria-label="Следующая страница"{% else %}aria-disabled="true"{% endif %}>
+                        <a {% if paginator.next_page %}href="{{ site.url }}{{ site.baseurl }}/{{ paginator.next_page_path }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}" {% if paginator.next_page %}aria-label="Следующая страница"{% else %}aria-disabled="true"{% endif %}>
                             <span class="pagi-icon flex"><i class="fas fa-arrow-right"></i></span>
                         </a>
                     </nav>
