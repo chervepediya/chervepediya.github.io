@@ -17,8 +17,8 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta property="og:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
-    <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+    <meta property="og:image" content="{% if page.image %}{{ page.image | prepend: site.baseurl | prepend: site.url }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
+    <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url | replace:'index.html','' }}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
     <meta property="og:site_name" content="{{ site.title }}">
@@ -27,22 +27,22 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@{{ site.social.twitter_username }}">
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
+    <meta name P="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="twitter:image" content="{% if page.image %}{{ page.image | prepend: site.baseurl | prepend: site.url }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}">
     
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png' | prepend: site.baseurl }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/favicon-32x32.png' | prepend: site.baseurl }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/favicon-16x16.png' | prepend: site.baseurl }}">
+    <link rel="manifest" href="{{ '/site.webmanifest' | prepend: site.baseurl }}">
     
     <!-- Google site verification -->
     <meta name="google-site-verification" content="WtWAvHg6J0MWXfI9XXyF0Nf9T95TQnOD-pmKKFsnKxE" />
     
     <!-- CSS & Fonts with preloading critical resources -->
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/main.css" as="style">
+    <link rel="preload" href="{{ '/assets/css/main.css' | prepend: site.baseurl }}" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | prepend: site.baseurl }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Structured Data -->
@@ -62,7 +62,7 @@
             "name": "{{ site.title }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ site.url }}{{ site.baseurl }}/apple-touch-icon.png"
+                "url": "{{ '/apple-touch-icon.png' | prepend: site.baseurl | prepend: site.url }}"
             }
         }
     }
@@ -75,7 +75,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "{{ page.title }}",
-        "image": "{% if page.image %}{{ site.url }}{{ site.baseurl }}{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}",
+        "image": "{% if page.image %}{{ page.image | prepend: site.baseurl | prepend: site.url }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-default.jpg{% endif %}",
         "datePublished": "{{ page.date | date_to_xmlschema }}",
         "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
         "author": {
@@ -87,7 +87,7 @@
             "name": "{{ site.title }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ site.url }}{{ site.baseurl }}/apple-touch-icon.png"
+                "url": "{{ '/apple-touch-icon.png' | prepend: site.baseurl | prepend: site.url }}"
             }
         },
         "description": "{{ page.description }}"
@@ -130,13 +130,13 @@
                 <div class="pagi-wrap flex">
                     {% if paginator.total_pages > 1 %}
                     <nav class="pagi flex gap3 align-center" aria-label="Pagination">
-                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | relative_url }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}" {% if paginator.previous_page %}aria-label="Предыдущая страница"{% else %}aria-disabled="true"{% endif %}>
+                        <a {% if paginator.previous_page %}href="{{ paginator.previous_page_path | prepend: site.baseurl }}"{% endif %} class="flex{% if paginator.previous_page %} has_page{% endif %}" {% if paginator.previous_page %}aria-label="Предыдущая страница"{% else %}aria-disabled="true"{% endif %}>
                             <span class="pagi-icon flex"><i class="fas fa-arrow-left"></i></span>
                         </a>
 
                         <span class="current_page">страница {{ paginator.page }} из {{ paginator.total_pages }}</span>
 
-                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | relative_url }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}" {% if paginator.next_page %}aria-label="Следующая страница"{% else %}aria-disabled="true"{% endif %}>
+                        <a {% if paginator.next_page %}href="{{ paginator.next_page_path | prepend: site.baseurl }}"{% endif %} class="flex{% if paginator.next_page %} has_page{% endif %}" {% if paginator.next_page %}aria-label="Следующая страница"{% else %}aria-disabled="true"{% endif %}>
                             <span class="pagi-icon flex"><i class="fas fa-arrow-right"></i></span>
                         </a>
                     </nav>
@@ -160,7 +160,7 @@
             </div>
             
             <div class="copyright">
-                &copy; {{ site.time | date: '%Y' }} {{ site.title }}. Все права защищены.
+                © {{ site.time | date: '%Y' }} {{ site.title }}. Все права защищены.
             </div>
         </footer>
     </div>
@@ -178,6 +178,6 @@
     </div>
 
     <!-- JavaScript with defer for non-critical scripts -->
-    <script defer src="{{ site.baseurl }}/assets/js/main.js"></script>
+    <script defer src="{{ '/assets/js/main.js' | prepend: site.baseurl }}"></script>
 </body>
 </html>
