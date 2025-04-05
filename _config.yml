@@ -37,8 +37,8 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-- name: generate-sitemap
-  uses: cicirello/generate-sitemap@v1.10.1
+  - name: generate-sitemap
+    uses: cicirello/generate-sitemap@v1.10.1
 
 
 include:
