@@ -24,8 +24,8 @@ permalink: /search/
         // Display the query
         document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Fetch search index with full URL and added slash
-        fetch('{{ site.url }}{{ site.baseurl }}/assets/js/search_index.json')
+        // Fetch search index with absolute URL
+        fetch('{{ "/assets/js/search_index.json" | absolute_url }}')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Не удалось загрузить индекс поиска: ' + response.status);
