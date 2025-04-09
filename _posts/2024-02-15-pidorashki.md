@@ -3,7 +3,7 @@ title: Безнадёжный народ
 description: Червепедия - Сравнение русских и немцев и неизбежность краха России.
 date: 2024-02-15
 layout: post
-image: https://i.ibb.co/pBVnvCFL/Tv-LRgnbtav4.jpg
+image: assets/images/_черветред (2).png
 ---
 
 <p>Россияне сейчас — это все равно не немцы при Гитлере.
