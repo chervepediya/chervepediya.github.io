@@ -3,7 +3,7 @@ title: Рузге мир
 description: Червепедия - Почему любая смерть лучше, чем гибель за "руззкий мир".
 date: 2024-03-17
 layout: post
-image: https://e.radikal.host/2024/11/25/CERVETRED---ROSSIY---SKOTOUBLYDIY-ZITELI-ROSSII---SVINOSOBAKI-PIDORASKI-PIDORAKI27.md.jpg
+image: assets/images/_черветред (14).png
 ---
 Лучше утонуть в московской канализации, чем сдохнуть за "русский мир".
 Лучше насмерть провалиться в выгребную яму деревенского сортира, чем сдохнуть за "руззкий мир".
