@@ -3,7 +3,7 @@ title: Почему россияне такие
 description: Червепедия - О тупости и нищете как основе русского характера.
 date: 2024-02-10
 layout: post
-image: https://i.ibb.co/ds3CW64S/h7OqbbDl.jpg
+image: assets/images/_черветред (5).png
 ---
 
 <p>Ответ простой — пидорахи: 1) Тупые и 2) Нищие.
