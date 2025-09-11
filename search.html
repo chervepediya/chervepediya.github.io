@@ -11,9 +11,6 @@ permalink: /search/
     <div id="debug-toggle" style="display: none; cursor: pointer; color: blue; margin-top: 10px;" onclick="toggleDebug()">Показать отладку</div>
 </div>
 
-<!-- Базовый Lunr.js -->
-<script src="https://unpkg.com/lunr@2.3.9/lunr.js"></script>
-
 <script>
     let debugVisible = false;
 
@@ -45,7 +42,7 @@ permalink: /search/
         entry.textContent = new Date().toLocaleTimeString() + ': ' + message;
         document.getElementById('debug-info').appendChild(entry);
         document.getElementById('debug-toggle').style.display = 'block';
-        console.log(message); // Всё равно в консоль для devs
+        console.log(message); // Всё равно в консоль
     }
 
     // Глобальный обработчик ошибок — отображает на странице
@@ -56,153 +53,113 @@ permalink: /search/
             logToPage('Стек ошибки: ' + error.stack, true);
         }
         document.getElementById('search-results').innerHTML += `<p style="color: red; font-weight: bold;">${errorMsg}</p>`;
-        return true; // Позволяем обработать другие обработчики
+        return true;
     };
 
     document.addEventListener('DOMContentLoaded', function() {
         try {
-            // Проверка lunr
-            if (typeof lunr === 'undefined') {
-                throw new Error('Lunr.js не загрузился. Проверьте интернет или CDN. Перезагрузите страницу.');
-            }
-            logToPage('Lunr available: ' + typeof lunr);
+            // Get the query parameter from the URL
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q')?.trim();
 
-            // Динамическая загрузка stemmer support
-            const stemmerScript = document.createElement('script');
-            stemmerScript.src = 'https://cdn.jsdelivr.net/npm/lunr-languages@1.14.0/lunr.stemmer.support.min.js';
-            stemmerScript.onload = function() {
-                try {
-                    if (typeof lunr.stemmer !== 'undefined' && typeof lunr.stemmer.support === 'function') {
-                        lunr.stemmer.support(lunr);
-                        logToPage('Stemmer support loaded');
-                        loadRussianSupport();
-                    } else {
-                        throw new Error('Stemmer support not loaded correctly (функция support отсутствует)');
-                    }
-                } catch (e) {
-                    logToPage('Ошибка загрузки stemmer: ' + e.message, true);
-                }
-            };
-            stemmerScript.onerror = function() {
-                const err = 'Failed to load stemmer support (CDN недоступен)';
-                logToPage(err, true);
-                document.getElementById('search-results').innerHTML += `<p style="color: red;">${err}. Попробуйте перезагрузить страницу.</p>`;
-            };
-            document.head.appendChild(stemmerScript);
-
-            function loadRussianSupport() {
-                // Динамическая загрузка lunr.ru
-                const ruScript = document.createElement('script');
-                ruScript.src = 'https://cdn.jsdelivr.net/npm/lunr-languages@1.14.0/lunr.ru.min.js';
-                ruScript.onload = function() {
-                    try {
-                        if (typeof lunr.ru === 'function') {
-                            lunr.ru(lunr);
-                            logToPage('Russian support loaded: true');
-                            initSearch();
-                        } else {
-                            throw new Error('lunr.ru not a function after load');
-                        }
-                    } catch (e) {
-                        logToPage('Ошибка загрузки lunr.ru: ' + e.message, true);
-                    }
-                };
-                ruScript.onerror = function() {
-                    const err = 'Failed to load lunr.ru (CDN недоступен)';
-                    logToPage(err, true);
-                    document.getElementById('search-results').innerHTML += `<p style="color: red;">${err}. Попробуйте перезагрузить страницу или используйте VPN.</p>`;
-                };
-                document.head.appendChild(ruScript);
+            if (!query) {
+                document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
+                return;
             }
 
-            function initSearch() {
-                try {
-                    // Get the query parameter from the URL
-                    const params = new URLSearchParams(window.location.search);
-                    const query = params.get('q')?.trim();
+            // Display the query and loading
+            document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-                    if (!query) {
-                        document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
-                        return;
-                    }
+            // Generate documents array using Jekyll Liquid
+            {% assign counter = 0 %}
+            var documents = [
+                {% for post in site.posts %}
+                {
+                    "id": {{ counter }},
+                    "title": {{ post.title | escape | jsonify }},
+                    "url": {{ post.url | relative_url | jsonify }},
+                    "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
+                    "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
+                    "content": {{ post.content | strip_html | truncate: 3000 | escape | jsonify }},
+                    "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""
+                    {% endif %}
+                }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+                {% for page in site.pages %}
+                {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
+                ,
+                {
+                    "id": {{ counter }},
+                    "title": {{ page.title | escape | jsonify }},
+                    "url": {{ page.url | relative_url | jsonify }},
+                    "date": "",
+                    "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
+                    "content": {{ page.content | strip_html | truncate: 3000 | escape | jsonify }},
+                    "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""
+                    {% endif %}
+                }{% assign counter = counter | plus: 1 %}
+                {% endif %}
+                {% endfor %}
+            ];
 
-                    // Display the query and loading
-                    document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+            logToPage('Documents loaded: ' + documents.length + ' items');
 
-                    // Generate documents array using Jekyll Liquid
-                    {% assign counter = 0 %}
-                    var documents = [
-                        {% for post in site.posts %}
-                        {
-                            "id": {{ counter }},
-                            "title": {{ post.title | escape | jsonify }},
-                            "url": {{ post.url | relative_url | jsonify }},
-                            "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
-                            "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
-                            "content": {{ post.content | strip_html | truncate: 3000 | escape | jsonify }},
-                            "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""
-                            {% endif %}
-                        }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
-                        {% endfor %}
-                        {% for page in site.pages %}
-                        {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
-                        ,
-                        {
-                            "id": {{ counter }},
-                            "title": {{ page.title | escape | jsonify }},
-                            "url": {{ page.url | relative_url | jsonify }},
-                            "date": "",
-                            "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
-                            "content": {{ page.content | strip_html | truncate: 3000 | escape | jsonify }},
-                            "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""
-                            {% endif %}
-                        }{% assign counter = counter | plus: 1 %}
-                        {% endif %}
-                        {% endfor %}
-                    ];
-
-                    logToPage('Documents loaded: ' + documents.length + ' items');
-
-                    if (documents.length === 0) {
-                        throw new Error('Нет документов для индексации (проверьте _posts/ и страницы)');
-                    }
-
-                    // Build Lunr index with Russian support
-                    const idx = lunr(function () {
-                        this.use(lunr.ru);
-                        this.ref('id');
-                        this.field('title', { boost: 10 });
-                        this.field('content');
-                        documents.forEach(doc => this.add(doc));
-                    });
-
-                    logToPage('Index built with ' + idx.documentStore.length + ' documents');
-
-                    // Perform search
-                    const results = idx.search(query);
-                    logToPage('Search results: ' + results.length + ' matches');
-                    const resultDocs = results.map(result => documents.find(doc => doc.id == result.ref)).filter(doc => doc);
-
-                    // Hide loading
-                    const loading = document.querySelector('.search-loading');
-                    if (loading) loading.remove();
-
-                    displayResults(resultDocs, query);
-                } catch (error) {
-                    logToPage('Ошибка в initSearch: ' + error.message, true);
-                    if (error.stack) logToPage('Стек: ' + error.stack, true);
-                    const resultsDiv = document.getElementById('search-results');
-                    const loading = document.querySelector('.search-loading');
-                    if (loading) loading.remove();
-                    resultsDiv.innerHTML += `<p style="color: red; font-weight: bold;">Ошибка при поиске: ${error.message}</p>`;
-                }
+            if (documents.length === 0) {
+                throw new Error('Нет документов для индексации (проверьте _posts/ и страницы)');
             }
 
+            // Custom search function (без Lunr)
+            function customSearch(queryLower, docs) {
+                logToPage('Starting custom search for: ' + queryLower);
+                const results = [];
+
+                docs.forEach(doc => {
+                    let score = 0;
+                    const titleLower = doc.title.toLowerCase();
+                    const contentLower = doc.content.toLowerCase();
+
+                    // Поиск в title (буст x2)
+                    if (titleLower.includes(queryLower)) {
+                        score += 2;
+                        // Бонус за начало слова
+                        if (titleLower.startsWith(queryLower)) score += 1;
+                    }
+
+                    // Поиск в content
+                    if (contentLower.includes(queryLower)) {
+                        score += 1;
+                        // Бонус за начало предложения (простой: после . ! ? или начала)
+                        const sentences = contentLower.split(/[.!?]+/);
+                        if (sentences.some(s => s.trim().startsWith(queryLower))) score += 1;
+                    }
+
+                    if (score > 0) {
+                        results.push({ ...doc, score: score });
+                    }
+                });
+
+                // Сортировка по score (desc)
+                results.sort((a, b) => b.score - a.score);
+                logToPage('Raw results: ' + results.length + ' matches');
+                return results.map(r => r); // Возвращаем без score для display
+            }
+
+            // Perform search
+            const results = customSearch(query.toLowerCase(), documents);
+            logToPage('Search results: ' + results.length + ' matches');
+
+            // Hide loading
+            const loading = document.querySelector('.search-loading');
+            if (loading) loading.remove();
+
+            displayResults(results, query);
         } catch (error) {
-            logToPage('Общая ошибка в DOMContentLoaded: ' + error.message, true);
+            logToPage('Ошибка в поиске: ' + error.message, true);
             if (error.stack) logToPage('Стек: ' + error.stack, true);
             const resultsDiv = document.getElementById('search-results');
-            resultsDiv.innerHTML += `<p style="color: red; font-weight: bold;">Общая ошибка: ${error.message}</p>`;
+            const loading = document.querySelector('.search-loading');
+            if (loading) loading.remove();
+            resultsDiv.innerHTML += `<p style="color: red; font-weight: bold;">Ошибка при поиске: ${error.message}</p>`;
         }
     });
 
