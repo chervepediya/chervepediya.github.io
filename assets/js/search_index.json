@@ -2,6 +2,10 @@
 layout: null
 ---
 [
+  {% assign posts_size = site.posts | size %}
+  {% assign pages_size = site.pages | size %}
+  {% assign counter = 0 %}
+
   {% for post in site.posts %}
     {
       "title": {{ post.title | jsonify }},
@@ -9,10 +13,10 @@ layout: null
       "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
       "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }},
       "content": {{ post.content | strip_html | jsonify }},
-      "image": {{ post.image | relative_url | jsonify | default: '' }}
-    }{% unless forloop.last %},{% endunless %}
+      "image": {{ post.image | default: "" | relative_url | jsonify }}
+    }{% unless forloop.last and pages_size == 0 %},{% endunless %}
   {% endfor %}
-  ,
+
   {% for page in site.pages %}
     {% if page.title and page.layout != 'none' and page.layout != 'default' and page.title != 'Поиск' %}
     {
@@ -21,7 +25,7 @@ layout: null
       "date": "",
       "excerpt": {{ page.content | strip_html | truncatewords: 50 | jsonify }},
       "content": {{ page.content | strip_html | jsonify }},
-      "image": {{ page.image | relative_url | jsonify | default: '' }}
+      "image": {{ page.image | default: "" | relative_url | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endif %}
   {% endfor %}
