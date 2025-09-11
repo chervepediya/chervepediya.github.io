@@ -11,144 +11,321 @@ permalink: /search/
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get the query parameter from the URL
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get('q')?.trim();
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q')?.trim();
 
-        if (!query) {
-            document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
-            return;
+    if (!query) {
+        document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
+        return;
+    }
+
+    document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${escapeHtml(query)}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+
+    {% assign counter = 0 %}
+    var documents = [
+        {% for post in site.posts %}
+        {
+            "id": {{ counter }},
+            "title": {{ post.title | escape | jsonify }},
+            "url": {{ post.url | relative_url | jsonify }},
+            "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
+            "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
+            "content": {{ post.content | strip_html | truncate: 3000 | escape | jsonify }},
+            "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""{% endif %}
+        }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        {% for page in site.pages %}
+        {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
+        ,
+        {
+            "id": {{ counter }},
+            "title": {{ page.title | escape | jsonify }},
+            "url": {{ page.url | relative_url | jsonify }},
+            "date": "",
+            "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
+            "content": {{ page.content | strip_html | truncate: 3000 | escape | jsonify }},
+            "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""{% endif %}
+        }{% assign counter = counter | plus: 1 %}
+        {% endif %}
+        {% endfor %}
+    ];
+
+    if (documents.length === 0) {
+        document.getElementById('search-results').innerHTML = '<p>Нет контента для поиска.</p>';
+        return;
+    }
+
+    // ====================== Индексация ======================
+    function normalize(text) {
+        if (!text) return '';
+        return text.toString()
+            .toLowerCase()
+            .replace(/[^\p{L}\p{N}\s]+/gu, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function tokenize(text) {
+        if (!text) return [];
+        return normalize(text).split(' ').filter(Boolean);
+    }
+
+    function ngrams(tokens, n) {
+        const out = [];
+        for (let i = 0; i + n <= tokens.length; i++) {
+            out.push(tokens.slice(i, i + n).join(' '));
         }
+        return out;
+    }
 
-        // Display the query and loading
-        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
-
-        // Generate documents array using Jekyll Liquid
-        {% assign counter = 0 %}
-        var documents = [
-            {% for post in site.posts %}
-            {
-                "id": {{ counter }},
-                "title": {{ post.title | escape | jsonify }},
-                "url": {{ post.url | relative_url | jsonify }},
-                "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
-                "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
-                "content": {{ post.content | strip_html | truncate: 3000 | escape | jsonify }},
-                "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""
-                {% endif %}
-            }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
-            {% endfor %}
-            {% for page in site.pages %}
-            {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
-            ,
-            {
-                "id": {{ counter }},
-                "title": {{ page.title | escape | jsonify }},
-                "url": {{ page.url | relative_url | jsonify }},
-                "date": "",
-                "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
-                "content": {{ page.content | strip_html | truncate: 3000 | escape | jsonify }},
-                "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""
-                {% endif %}
-            }{% assign counter = counter | plus: 1 %}
-            {% endif %}
-            {% endfor %}
-        ];
-
-        if (documents.length === 0) {
-            document.getElementById('search-results').innerHTML = '<p>Нет контента для поиска.</p>';
-            return;
+    function levenshtein(a, b) {
+        if (a === b) return 0;
+        const al = a.length, bl = b.length;
+        if (al === 0) return bl;
+        if (bl === 0) return al;
+        const matrix = Array.from({length: al + 1}, () => new Array(bl + 1));
+        for (let i = 0; i <= al; i++) matrix[i][0] = i;
+        for (let j = 0; j <= bl; j++) matrix[0][j] = j;
+        for (let i = 1; i <= al; i++) {
+            for (let j = 1; j <= bl; j++) {
+                const cost = a[i-1] === b[j-1] ? 0 : 1;
+                matrix[i][j] = Math.min(
+                    matrix[i-1][j] + 1,
+                    matrix[i][j-1] + 1,
+                    matrix[i-1][j-1] + cost
+                );
+            }
         }
+        return matrix[al][bl];
+    }
 
-        // Custom search function
-        function customSearch(queryLower, docs) {
-            const results = [];
+    const indexDocs = documents.map(doc => {
+        const titleNorm = normalize(doc.title || '');
+        const contentNorm = normalize(doc.content || '');
+        const titleTokens = tokenize(doc.title || '');
+        const contentTokens = tokenize(doc.content || '');
+        const titleBigrams = ngrams(titleTokens, 2);
+        const contentBigrams = ngrams(contentTokens, 2);
+        const titleTrigrams = ngrams(titleTokens, 3);
+        const contentTrigrams = ngrams(contentTokens, 3);
+        return {
+            id: doc.id,
+            title: doc.title,
+            url: doc.url,
+            date: doc.date,
+            excerpt: doc.excerpt,
+            image: doc.image,
+            titleNorm,
+            contentNorm,
+            titleTokens,
+            contentTokens,
+            titleBigrams,
+            contentBigrams,
+            titleTrigrams,
+            contentTrigrams
+        };
+    });
 
-            docs.forEach(doc => {
-                let score = 0;
-                const titleLower = doc.title.toLowerCase();
-                const contentLower = doc.content.toLowerCase();
+    // ====================== Поиск ======================
+    function customSearch(rawQuery, docs) {
+        const q = rawQuery.trim();
+        const qNorm = normalize(q);
+        const qTokens = tokenize(q);
+        const qBigrams = ngrams(qTokens, 2);
+        const qTrigrams = ngrams(qTokens, 3);
+        const results = [];
 
-                // Поиск в title (буст x2)
-                if (titleLower.includes(queryLower)) {
-                    score += 2;
-                    if (titleLower.startsWith(queryLower)) score += 1;
-                }
+        docs.forEach(doc => {
+            let score = 0;
+            let matched = false;
 
-                // Поиск в content
-                if (contentLower.includes(queryLower)) {
-                    score += 1;
-                    const sentences = contentLower.split(/[.!?]+/);
-                    if (sentences.some(s => s.trim().startsWith(queryLower))) score += 1;
-                }
+            // фраза целиком
+            if (qNorm.length > 2) {
+                if (doc.titleNorm.includes(qNorm)) { score += 18; matched = true; }
+                else if (doc.contentNorm.includes(qNorm)) { score += 12; matched = true; }
+            }
 
-                if (score > 0) {
-                    results.push({ ...doc, score: score });
+            // n-граммы
+            qTrigrams.forEach(tg => {
+                if (doc.titleTrigrams.includes(tg)) { score += 8; matched = true; }
+                if (doc.contentTrigrams.includes(tg)) { score += 6; matched = true; }
+            });
+            qBigrams.forEach(bg => {
+                if (doc.titleBigrams.includes(bg)) { score += 5; matched = true; }
+                if (doc.contentBigrams.includes(bg)) { score += 3.5; matched = true; }
+            });
+
+            // отдельные слова
+            qTokens.forEach(tok => {
+                let titleCount = doc.titleTokens.filter(t => t === tok).length;
+                let contentCount = doc.contentTokens.filter(t => t === tok).length;
+                if (titleCount) { score += 4 * titleCount; matched = true; }
+                if (contentCount) { score += 1.2 * contentCount; matched = true; }
+
+                const titlePrefix = doc.titleTokens.some(t => t.startsWith(tok));
+                const contentPrefix = doc.contentTokens.some(t => t.startsWith(tok));
+                if (titlePrefix) { score += 1.5; matched = true; }
+                if (contentPrefix) { score += 0.6; matched = true; }
+
+                if (!titleCount && !contentCount && !titlePrefix && !contentPrefix) {
+                    const sampleWords = doc.titleTokens.concat(doc.contentTokens.slice(0, 60));
+                    for (let w of sampleWords) {
+                        const dist = levenshtein(tok, w);
+                        if (dist > 0 && dist <= 2 && Math.abs(tok.length - w.length) <= 2) {
+                            score += Math.max(0.2, 1.2 - dist * 0.4);
+                            matched = true;
+                            break;
+                        }
+                    }
                 }
             });
 
-            // Сортировка по score (desc)
-            results.sort((a, b) => b.score - a.score);
-            return results.map(r => r); // Без score для display
-        }
-
-        // Perform search
-        const results = customSearch(query.toLowerCase(), documents);
-
-        // Hide loading
-        const loading = document.querySelector('.search-loading');
-        if (loading) loading.remove();
-
-        displayResults(results, query);
-    });
-
-    function displayResults(results, query) {
-        const resultsDiv = document.getElementById('search-results');
-
-        if (results.length === 0) {
-            resultsDiv.innerHTML += `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
-            return;
-        }
-
-        let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p><section class="search-results-list">`;
-
-        results.forEach(result => {
-            html += `
-                <article>
-                    <div class="post-container">
-                        <div class="post-content">
-                            <h2><a href="${result.url}">${result.title}</a></h2>
-                            ${result.image && result.image !== '' ? `
-                                <div class="post-image">
-                                    <a href="${result.url}">
-                                        <img src="${result.image}" alt="${result.title}">
-                                    </a>
-                                </div>
-                            ` : ''}
-                            <div class="excerpt">${result.excerpt}</div>
-                        </div>
-                        <footer class="info">
-                            <div class="info-inner">
-                                <div class="post-meta">
-                                    ${result.date ? `<time datetime="${result.date}">${result.date}</time>` : ''}
-                                    ${result.date ? '<span class="dot"></span>' : ''}
-                                    <span>{{ site.author }}</span>
-                                </div>
-                            </div>
-                        </footer>
-                    </div>
-                </article>
-            `;
+            if (matched && score > 0) {
+                results.push({ docId: doc.id, score, doc });
+            }
         });
 
-        html += '</section>';
-        resultsDiv.innerHTML += html;
+        results.sort((a, b) => b.score - a.score);
+
+        return results.map(r => {
+            const snippet = makeSnippet(r.doc, q);
+            return {
+                id: r.docId,
+                title: r.doc.title,
+                url: r.doc.url,
+                date: r.doc.date,
+                image: r.doc.image,
+                excerpt: r.doc.excerpt,
+                score: r.score,
+                snippet
+            };
+        });
     }
+
+    function makeSnippet(doc, rawQuery) {
+        const qNorm = rawQuery.trim().toLowerCase();
+        const content = doc.content || '';
+        const contentLower = content.toLowerCase();
+        let idx = -1;
+        if (qNorm.length > 2) idx = contentLower.indexOf(qNorm);
+        if (idx === -1) {
+            const tokens = qNorm.split(' ').filter(Boolean);
+            for (let tok of tokens) {
+                const i = contentLower.indexOf(tok);
+                if (i >= 0) { idx = i; break; }
+            }
+        }
+        if (idx === -1 && doc.title) {
+            const tIdx = doc.title.toLowerCase().indexOf(qNorm);
+            if (tIdx >= 0) {
+                return escapeHtml(doc.title).replace(new RegExp(escapeRegExp(qNorm), 'ig'), m => `<mark>${m}</mark>`);
+            }
+        }
+        if (idx === -1) {
+            return escapeHtml((doc.excerpt || '').substr(0, 240));
+        }
+        const start = Math.max(0, idx - 80);
+        const end = Math.min(content.length, idx + 160);
+        let piece = content.substring(start, end).trim();
+        const tokens = qNorm.split(' ').filter(Boolean);
+        tokens.forEach(tok => {
+            if (!tok) return;
+            const re = new RegExp(escapeRegExp(tok), 'ig');
+            piece = piece.replace(re, m => `<mark>${escapeHtml(m)}</mark>`);
+        });
+        piece = escapeHtmlExceptMarks(piece);
+        return (start > 0 ? '…' : '') + piece + (end < content.length ? '…' : '');
+    }
+
+    function escapeHtmlExceptMarks(str) {
+        const phOpen = '<<MARKOPEN>>';
+        const phClose = '<<MARKCLOSE>>';
+        str = str.replace(/<mark>/ig, phOpen).replace(/<\/mark>/ig, phClose);
+        str = escapeHtml(str);
+        str = str.replace(new RegExp(phOpen, 'g'), '<mark>').replace(new RegExp(phClose, 'g'), '</mark>');
+        return str;
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function escapeRegExp(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    const results = customSearch(query, indexDocs);
+
+    const loading = document.querySelector('.search-loading');
+    if (loading) loading.remove();
+
+    displayResults(results, query);
+});
+
+function displayResults(results, query) {
+    const resultsDiv = document.getElementById('search-results');
+
+    if (!results || results.length === 0) {
+        resultsDiv.innerHTML += `<p>Ничего не найдено по запросу: <strong>${escapeHtml(query)}</strong></p>`;
+        return;
+    }
+
+    let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${escapeHtml(query)}</strong></p><section class="search-results-list">`;
+
+    results.forEach(result => {
+        html += `
+            <article>
+                <div class="post-container">
+                    <div class="post-content">
+                        <h2><a href="${result.url}">${escapeHtml(result.title)}</a></h2>
+                        ${result.image && result.image !== '' ? `
+                            <div class="post-image">
+                                <a href="${result.url}">
+                                    <img src="${result.image}" alt="${escapeHtml(result.title)}">
+                                </a>
+                            </div>
+                        ` : ''}
+                        <div class="excerpt">${result.snippet || escapeHtml(result.excerpt)}</div>
+                    </div>
+                    <footer class="info">
+                        <div class="info-inner">
+                            <div class="post-meta">
+                                ${result.date ? `<time datetime="${escapeHtml(result.date)}">${escapeHtml(result.date)}</time>` : ''}
+                                ${result.date ? '<span class="dot"></span>' : ''}
+                                <span>{{ site.author }}</span>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </article>
+        `;
+    });
+
+    html += '</section>';
+    resultsDiv.innerHTML += html;
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 </script>
 
 <style>
     .search-loading { text-align: center; padding: 20px; }
     .search-count { font-weight: bold; margin: 10px 0; }
     .search-results-list { display: flex; flex-direction: column; gap: 20px; }
+    mark { background: yellow; }
 </style>
