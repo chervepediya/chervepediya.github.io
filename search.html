@@ -10,6 +10,8 @@ permalink: /search/
     <div id="search-results"></div>
 </div>
 
+<script src="https://unpkg.com/lunr/lunr.js"></script> <!-- CDN для Lunr.js -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Get the query parameter from the URL
@@ -24,7 +26,7 @@ permalink: /search/
         // Display the query
         document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Fetch search index with baseurl support (Jekyll processes this) — путь к assets/js
+        // Fetch search index with baseurl support
         fetch('{{ site.baseurl }}/assets/js/search_index.json')
             .then(response => {
                 if (!response.ok) {
@@ -32,33 +34,31 @@ permalink: /search/
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log('Search index loaded:', data); // Для отладки
-                const results = searchIndex(data, query);
-                displayResults(results, query);
+            .then(documents => {
+                console.log('Search documents loaded:', documents); // Для отладки
+
+                // Build Lunr index
+                const idx = lunr(function () {
+                    this.ref('url'); // Уникальный ключ
+                    this.field('title', { boost: 10 }); // Буст для заголовка
+                    this.field('content'); // Поиск по контенту
+
+                    documents.forEach(function (doc) {
+                        this.add(doc);
+                    }, this);
+                });
+
+                // Perform search (Lunr поддерживает fuzzy и wildcards с *)
+                const results = idx.search(query + '*'); // Добавляем * для частичных совпадений
+                const resultDocs = results.map(result => documents.find(doc => doc.url === result.ref));
+
+                displayResults(resultDocs, query);
             })
             .catch(error => {
                 console.error('Error loading search index:', error);
                 document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
             });
     });
-
-    function searchIndex(data, query) {
-        // Simple search function that looks for the query in title and content
-        const results = [];
-        const queryLower = query.toLowerCase();
-
-        data.forEach(item => {
-            const titleMatch = item.title.toLowerCase().includes(queryLower);
-            const contentMatch = item.content.toLowerCase().includes(queryLower);
-
-            if (titleMatch || contentMatch) {
-                results.push(item);
-            }
-        });
-
-        return results;
-    }
 
     function displayResults(results, query) {
         const resultsDiv = document.getElementById('search-results');
@@ -69,9 +69,10 @@ permalink: /search/
         }
 
         let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-        html += '<section class="search-results-list">'; // Используем section как на главной
+        html += '<section class="search-results-list">';
 
         results.forEach(result => {
+            if (!result) return; // Пропуск, если документ не найден
             html += `
                 <article>
                     <div class="post-container">
@@ -91,7 +92,7 @@ permalink: /search/
                                 <div class="post-meta">
                                     ${result.date ? `<time datetime="${result.date}">${result.date}</time>` : ''}
                                     ${result.date ? '<span class="dot"></span>' : ''}
-                                    <span>{{ site.author }}</span> <!-- Jekyll обработает это из _config.yml -->
+                                    <span>{{ site.author }}</span>
                                 </div>
                             </div>
                         </footer>
