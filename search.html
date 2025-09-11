@@ -10,87 +10,101 @@ permalink: /search/
     <div id="search-results"></div>
 </div>
 
-<!-- CDN для Lunr.js и поддержки русского -->
+<!-- CDN для Lunr.js и поддержки русского (jsDelivr для стабильности) -->
 <script src="https://unpkg.com/lunr@2.3.9/lunr.js"></script>
-<script src="https://unpkg.com/lunr-languages@1.4.0/lunr.stemmer.support.js"></script>
-<script src="https://unpkg.com/lunr-languages@1.4.0/lunr.ru.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.14.0/lunr.stemmer.support.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.14.0/lunr.ru.min.js"></script>
 
 <script>
+    // Глобальный обработчик ошибок для отладки
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+        console.error('Global error:', { msg, url, lineNo, columnNo, error });
+        document.getElementById('search-results').innerHTML += '<p style="color: red;">Ошибка в скрипте: ' + msg + '</p>';
+        return false;
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
-        // Get the query parameter from the URL
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get('q')?.trim();
+        try {
+            // Get the query parameter from the URL
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q')?.trim();
 
-        if (!query) {
-            document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
-            return;
-        }
+            if (!query) {
+                document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
+                return;
+            }
 
-        // Display the query and loading
-        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+            // Display the query and loading
+            document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Generate documents array using Jekyll Liquid (processed at build time)
-        {% assign counter = 0 %}
-        var documents = [
-            {% for post in site.posts %}
-            {
-                "id": {{ counter }},
-                "title": {{ post.title | escape | jsonify }},
-                "url": {{ post.url | relative_url | jsonify }},
-                "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
-                "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
-                "content": {{ post.content | strip_html | escape | jsonify }},
-                "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""
+            // Generate documents array using Jekyll Liquid (processed at build time)
+            {% assign counter = 0 %}
+            var documents = [
+                {% for post in site.posts %}
+                {
+                    "id": {{ counter }},
+                    "title": {{ post.title | escape | jsonify }},
+                    "url": {{ post.url | relative_url | jsonify }},
+                    "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
+                    "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
+                    "content": {{ post.content | strip_html | truncate: 5000 | escape | jsonify }},
+                    "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""
+                    {% endif %}
+                }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+                {% for page in site.pages %}
+                {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
+                ,
+                {
+                    "id": {{ counter }},
+                    "title": {{ page.title | escape | jsonify }},
+                    "url": {{ page.url | relative_url | jsonify }},
+                    "date": "",
+                    "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
+                    "content": {{ page.content | strip_html | truncate: 5000 | escape | jsonify }},
+                    "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""
+                    {% endif %}
+                }{% assign counter = counter | plus: 1 %}
                 {% endif %}
-            }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
-            {% endfor %}
-            {% for page in site.pages %}
-            {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
-            ,
-            {
-                "id": {{ counter }},
-                "title": {{ page.title | escape | jsonify }},
-                "url": {{ page.url | relative_url | jsonify }},
-                "date": "",
-                "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
-                "content": {{ page.content | strip_html | escape | jsonify }},
-                "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""
-                {% endif %}
-            }{% assign counter = counter | plus: 1 %}
-            {% endif %}
-            {% endfor %}
-        ];
+                {% endfor %}
+            ];
 
-        console.log('Documents loaded:', documents.slice(0, 3)); // Лог первых 3 для отладки (чтобы не спамить консоль)
+            console.log('Documents loaded:', documents); // Полный лог для отладки
 
-        if (documents.length === 0) {
-            document.getElementById('search-results').innerHTML += '<p>Нет контента для индексации.</p>';
-            return;
+            if (documents.length === 0) {
+                throw new Error('Нет документов для индексации (проверьте site.posts и site.pages)');
+            }
+
+            // Build Lunr index with Russian support
+            lunr.stemmer.support(lunr); // Поддержка стемминга
+            lunr.ru(lunr); // Русский стеммер и стоп-слова
+            const idx = lunr(function () {
+                this.use(lunr.ru); // Используем русский
+                this.ref('id');
+                this.field('title', { boost: 10 });
+                this.field('content');
+                documents.forEach(doc => this.add(doc));
+            });
+
+            console.log('Index built with', idx.documentStore.length, 'documents'); // Отладка индекса
+
+            // Perform search
+            const results = idx.search(query);
+            console.log('Search results refs:', results.map(r => r.ref)); // Отладка результатов
+            const resultDocs = results.map(result => documents.find(doc => doc.id == result.ref)).filter(doc => doc); // Фильтр на null
+
+            // Hide loading
+            const loading = document.querySelector('.search-loading');
+            if (loading) loading.remove();
+
+            displayResults(resultDocs, query);
+        } catch (error) {
+            console.error('Search error:', error);
+            const resultsDiv = document.getElementById('search-results');
+            const loading = document.querySelector('.search-loading');
+            if (loading) loading.remove();
+            resultsDiv.innerHTML += `<p style="color: red;">Ошибка при поиске: ${error.message}</p>`;
         }
-
-        // Build Lunr index with Russian support
-        lunr.stemmer.support(lunr); // Поддержка стемминга
-        lunr.ru(lunr); // Русский стеммер и стоп-слова
-        const idx = lunr(function () {
-            this.use(lunr.ru); // Используем русский
-            this.ref('id');
-            this.field('title', { boost: 10 });
-            this.field('content');
-            documents.forEach(doc => this.add(doc));
-        });
-
-        console.log('Index built with', idx.documentStore.length, 'documents'); // Отладка индекса
-
-        // Perform search
-        const results = idx.search(query);
-        console.log('Search results refs:', results.map(r => r.ref)); // Отладка результатов
-        const resultDocs = results.map(result => documents.find(doc => doc.id == result.ref)).filter(doc => doc); // Фильтр на null
-
-        // Hide loading
-        const loading = document.querySelector('.search-loading');
-        if (loading) loading.remove();
-
-        displayResults(resultDocs, query);
     });
 
     function displayResults(results, query) {
@@ -138,7 +152,7 @@ permalink: /search/
 </script>
 
 <style>
-    /* Минимальные стили, если нет в main.css */
+    /* Минимальные стили */
     .search-loading { text-align: center; padding: 20px; }
     .search-count { font-weight: bold; margin: 10px 0; }
     .search-results-list { display: flex; flex-direction: column; gap: 20px; }
