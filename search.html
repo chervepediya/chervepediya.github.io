@@ -10,13 +10,16 @@ permalink: /search/
     <div id="search-results"></div>
 </div>
 
-<script src="https://unpkg.com/lunr/lunr.js"></script> <!-- CDN для Lunr.js -->
+<!-- CDN для Lunr.js и поддержки русского -->
+<script src="https://unpkg.com/lunr@2.3.9/lunr.js"></script>
+<script src="https://unpkg.com/lunr-languages@1.4.0/lunr.stemmer.support.js"></script>
+<script src="https://unpkg.com/lunr-languages@1.4.0/lunr.ru.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Get the query parameter from the URL
         const params = new URLSearchParams(window.location.search);
-        const query = params.get('q');
+        const query = params.get('q')?.trim();
 
         if (!query) {
             document.getElementById('search-results').innerHTML = '<p>Введите поисковый запрос</p>';
@@ -32,12 +35,13 @@ permalink: /search/
             {% for post in site.posts %}
             {
                 "id": {{ counter }},
-                "title": {{ post.title | jsonify }},
+                "title": {{ post.title | escape | jsonify }},
                 "url": {{ post.url | relative_url | jsonify }},
                 "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
-                "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }},
-                "content": {{ post.content | strip_html | strip_newlines | escape_once | jsonify }},
-                "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""{% endif %}
+                "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | escape | jsonify }},
+                "content": {{ post.content | strip_html | escape | jsonify }},
+                "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""
+                {% endif %}
             }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
             {% endfor %}
             {% for page in site.pages %}
@@ -45,36 +49,47 @@ permalink: /search/
             ,
             {
                 "id": {{ counter }},
-                "title": {{ page.title | jsonify }},
+                "title": {{ page.title | escape | jsonify }},
                 "url": {{ page.url | relative_url | jsonify }},
                 "date": "",
-                "excerpt": {{ page.content | strip_html | truncatewords: 50 | jsonify }},
-                "content": {{ page.content | strip_html | strip_newlines | escape_once | jsonify }},
-                "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""{% endif %}
+                "excerpt": {{ page.content | strip_html | truncatewords: 50 | escape | jsonify }},
+                "content": {{ page.content | strip_html | escape | jsonify }},
+                "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""
+                {% endif %}
             }{% assign counter = counter | plus: 1 %}
             {% endif %}
             {% endfor %}
         ];
 
-        console.log('Documents loaded:', documents); // Для отладки
+        console.log('Documents loaded:', documents.slice(0, 3)); // Лог первых 3 для отладки (чтобы не спамить консоль)
 
-        // Build Lunr index
+        if (documents.length === 0) {
+            document.getElementById('search-results').innerHTML += '<p>Нет контента для индексации.</p>';
+            return;
+        }
+
+        // Build Lunr index with Russian support
+        lunr.stemmer.support(lunr); // Поддержка стемминга
+        lunr.ru(lunr); // Русский стеммер и стоп-слова
         const idx = lunr(function () {
-            this.ref('id'); // Уникальный ключ
-            this.field('title', { boost: 10 }); // Буст для заголовка
-            this.field('content'); // Поиск по контенту
+            this.use(lunr.ru); // Используем русский
+            this.ref('id');
+            this.field('title', { boost: 10 });
+            this.field('content');
+            documents.forEach(doc => this.add(doc));
         });
 
-        documents.forEach(function (doc) {
-            idx.add(doc);
-        });
+        console.log('Index built with', idx.documentStore.length, 'documents'); // Отладка индекса
 
         // Perform search
-        const results = idx.search(query + '*'); // * для частичных совпадений
-        const resultDocs = results.map(result => documents.find(doc => doc.id == result.ref));
+        const results = idx.search(query);
+        console.log('Search results refs:', results.map(r => r.ref)); // Отладка результатов
+        const resultDocs = results.map(result => documents.find(doc => doc.id == result.ref)).filter(doc => doc); // Фильтр на null
 
-        // Hide loading and display results
-        document.querySelector('.search-loading').style.display = 'none';
+        // Hide loading
+        const loading = document.querySelector('.search-loading');
+        if (loading) loading.remove();
+
         displayResults(resultDocs, query);
     });
 
@@ -89,7 +104,6 @@ permalink: /search/
         let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p><section class="search-results-list">`;
 
         results.forEach(result => {
-            if (!result) return;
             html += `
                 <article>
                     <div class="post-container">
@@ -122,3 +136,10 @@ permalink: /search/
         resultsDiv.innerHTML += html;
     }
 </script>
+
+<style>
+    /* Минимальные стили, если нет в main.css */
+    .search-loading { text-align: center; padding: 20px; }
+    .search-count { font-weight: bold; margin: 10px 0; }
+    .search-results-list { display: flex; flex-direction: column; gap: 20px; }
+</style>
