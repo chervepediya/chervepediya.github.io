@@ -6,13 +6,11 @@ permalink: /search/
 
 <div class="search-container">
     <h1 class="search-title">Результаты поиска</h1>
-
     <div id="search-results"></div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get the query parameter from the URL
         const params = new URLSearchParams(window.location.search);
         const query = params.get('q');
 
@@ -21,11 +19,11 @@ permalink: /search/
             return;
         }
 
-        // Display the query
-        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+        document.getElementById('search-results').innerHTML =
+            `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Fetch search index with absolute URL
-        fetch('{{ "/assets/js/search_index.json" | absolute_url }}')
+        // Указываем путь явно
+        fetch('{{ "/assets/js/search_index.json" | relative_url }}')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Не удалось загрузить индекс поиска: ' + response.status);
@@ -38,12 +36,12 @@ permalink: /search/
             })
             .catch(error => {
                 console.error('Error loading search index:', error);
-                document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
+                document.getElementById('search-results').innerHTML =
+                    '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
             });
     });
 
     function searchIndex(data, query) {
-        // Simple search function that looks for the query in title and content
         const results = [];
         const queryLower = query.toLowerCase();
 
@@ -68,7 +66,7 @@ permalink: /search/
         }
 
         let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-        html += '<section class="search-results-list">'; // Используем section как на главной
+        html += '<section class="search-results-list">';
 
         results.forEach(result => {
             html += `
@@ -90,7 +88,7 @@ permalink: /search/
                                 <div class="post-meta">
                                     ${result.date ? `<time datetime="${result.date}">${result.date}</time>` : ''}
                                     ${result.date ? '<span class="dot"></span>' : ''}
-                                    <span>{{ site.author }}</span> <!-- Предполагается, что автор берётся из конфига -->
+                                    <span>{{ site.author }}</span>
                                 </div>
                             </div>
                         </footer>
@@ -102,4 +100,4 @@ permalink: /search/
         html += '</section>';
         resultsDiv.innerHTML = html;
     }
-</script>
+    </script>
