@@ -6,11 +6,13 @@ permalink: /search/
 
 <div class="search-container">
     <h1 class="search-title">Результаты поиска</h1>
+
     <div id="search-results"></div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Get the query parameter from the URL
         const params = new URLSearchParams(window.location.search);
         const query = params.get('q');
 
@@ -19,29 +21,30 @@ permalink: /search/
             return;
         }
 
-        document.getElementById('search-results').innerHTML =
-            `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
+        // Display the query
+        document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Указываем путь явно
-        fetch('{{ "/assets/js/search_index.json" | relative_url }}')
+        // Fetch search index with baseurl support (Jekyll processes this) — путь к assets/js
+        fetch('{{ site.baseurl }}/assets/js/search_index.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Не удалось загрузить индекс поиска: ' + response.status);
+                    throw new Error('Не удалось загрузить индекс поиска: ' + response.status + ' ' + response.statusText);
                 }
                 return response.json();
             })
             .then(data => {
+                console.log('Search index loaded:', data); // Для отладки
                 const results = searchIndex(data, query);
                 displayResults(results, query);
             })
             .catch(error => {
                 console.error('Error loading search index:', error);
-                document.getElementById('search-results').innerHTML =
-                    '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
+                document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
             });
     });
 
     function searchIndex(data, query) {
+        // Simple search function that looks for the query in title and content
         const results = [];
         const queryLower = query.toLowerCase();
 
@@ -66,7 +69,7 @@ permalink: /search/
         }
 
         let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-        html += '<section class="search-results-list">';
+        html += '<section class="search-results-list">'; // Используем section как на главной
 
         results.forEach(result => {
             html += `
@@ -88,7 +91,7 @@ permalink: /search/
                                 <div class="post-meta">
                                     ${result.date ? `<time datetime="${result.date}">${result.date}</time>` : ''}
                                     ${result.date ? '<span class="dot"></span>' : ''}
-                                    <span>{{ site.author }}</span>
+                                    <span>{{ site.author }}</span> <!-- Jekyll обработает это из _config.yml -->
                                 </div>
                             </div>
                         </footer>
@@ -100,4 +103,4 @@ permalink: /search/
         html += '</section>';
         resultsDiv.innerHTML = html;
     }
-    </script>
+</script>
