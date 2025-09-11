@@ -23,62 +23,79 @@ permalink: /search/
             return;
         }
 
-        // Display the query
+        // Display the query and loading
         document.getElementById('search-results').innerHTML = `<p>Поиск: <strong>${query}</strong></p><div class="search-loading">Загрузка результатов...</div>`;
 
-        // Fetch search index with baseurl support
-        fetch('{{ site.baseurl }}/assets/js/search_index.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Не удалось загрузить индекс поиска: ' + response.status + ' ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(documents => {
-                console.log('Search documents loaded:', documents); // Для отладки
+        // Generate documents array using Jekyll Liquid (processed at build time)
+        {% assign counter = 0 %}
+        var documents = [
+            {% for post in site.posts %}
+            {
+                "id": {{ counter }},
+                "title": {{ post.title | jsonify }},
+                "url": {{ post.url | relative_url | jsonify }},
+                "date": {{ post.date | date: "%d.%m.%Y" | jsonify }},
+                "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }},
+                "content": {{ post.content | strip_html | strip_newlines | escape_once | jsonify }},
+                "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}""{% endif %}
+            }{% assign counter = counter | plus: 1 %}{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% for page in site.pages %}
+            {% if page.title and page.title != '' and page.permalink != '/search/' and page.layout != 'none' %}
+            ,
+            {
+                "id": {{ counter }},
+                "title": {{ page.title | jsonify }},
+                "url": {{ page.url | relative_url | jsonify }},
+                "date": "",
+                "excerpt": {{ page.content | strip_html | truncatewords: 50 | jsonify }},
+                "content": {{ page.content | strip_html | strip_newlines | escape_once | jsonify }},
+                "image": {% if page.image %}{{ page.image | relative_url | jsonify }}{% else %}""{% endif %}
+            }{% assign counter = counter | plus: 1 %}
+            {% endif %}
+            {% endfor %}
+        ];
 
-                // Build Lunr index
-                const idx = lunr(function () {
-                    this.ref('url'); // Уникальный ключ
-                    this.field('title', { boost: 10 }); // Буст для заголовка
-                    this.field('content'); // Поиск по контенту
+        console.log('Documents loaded:', documents); // Для отладки
 
-                    documents.forEach(function (doc) {
-                        this.add(doc);
-                    }, this);
-                });
+        // Build Lunr index
+        const idx = lunr(function () {
+            this.ref('id'); // Уникальный ключ
+            this.field('title', { boost: 10 }); // Буст для заголовка
+            this.field('content'); // Поиск по контенту
+        });
 
-                // Perform search (Lunr поддерживает fuzzy и wildcards с *)
-                const results = idx.search(query + '*'); // Добавляем * для частичных совпадений
-                const resultDocs = results.map(result => documents.find(doc => doc.url === result.ref));
+        documents.forEach(function (doc) {
+            idx.add(doc);
+        });
 
-                displayResults(resultDocs, query);
-            })
-            .catch(error => {
-                console.error('Error loading search index:', error);
-                document.getElementById('search-results').innerHTML = '<p>Ошибка при поиске. Пожалуйста, попробуйте позже.</p>';
-            });
+        // Perform search
+        const results = idx.search(query + '*'); // * для частичных совпадений
+        const resultDocs = results.map(result => documents.find(doc => doc.id == result.ref));
+
+        // Hide loading and display results
+        document.querySelector('.search-loading').style.display = 'none';
+        displayResults(resultDocs, query);
     });
 
     function displayResults(results, query) {
         const resultsDiv = document.getElementById('search-results');
 
         if (results.length === 0) {
-            resultsDiv.innerHTML = `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
+            resultsDiv.innerHTML += `<p>Ничего не найдено по запросу: <strong>${query}</strong></p>`;
             return;
         }
 
-        let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p>`;
-        html += '<section class="search-results-list">';
+        let html = `<p class="search-count">Найдено ${results.length} результатов по запросу: <strong>${query}</strong></p><section class="search-results-list">`;
 
         results.forEach(result => {
-            if (!result) return; // Пропуск, если документ не найден
+            if (!result) return;
             html += `
                 <article>
                     <div class="post-container">
                         <div class="post-content">
                             <h2><a href="${result.url}">${result.title}</a></h2>
-                            ${result.image ? `
+                            ${result.image && result.image !== '' ? `
                                 <div class="post-image">
                                     <a href="${result.url}">
                                         <img src="${result.image}" alt="${result.title}">
@@ -102,6 +119,6 @@ permalink: /search/
         });
 
         html += '</section>';
-        resultsDiv.innerHTML = html;
+        resultsDiv.innerHTML += html;
     }
 </script>
